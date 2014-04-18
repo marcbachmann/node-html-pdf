@@ -1,5 +1,4 @@
 fs = require('fs')
-async = require('async')
 spawn = require('child_process').spawn
 path = require('path')
 phantomjs = require('phantomjs')
@@ -55,13 +54,9 @@ exports.create = (string, options, callback) ->
 
     else
       filename = file.toString()
-      async.series [
-        (done) ->
-          fs.readFile(filename, done)
-        (done) ->
-          fs.unlink(filename, done)
-        ]
-      , (err, [buffer]) ->
-        callback(err, buffer)
+      fs.readFile filename, (err, buffer) ->
+        return callback(err) if err
+        fs.unlink filename, (err) ->
+          callback(err, buffer)
 
   child.stdin.write(string, 'utf8')
