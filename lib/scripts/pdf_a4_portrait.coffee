@@ -52,23 +52,27 @@ if options.height && options.width
   paperSize.height = options.height
 else
   paperSize.format = options.format || 'A4'
-  paperSize.orientation = options.portrait || 'portrait'
+  paperSize.orientation = options.orientation || 'portrait'
 
 page.paperSize = paperSize
 
 
+
 # Output to parent process
+fileOptions =
+  type: options.type || 'pdf' 
+  quality: options.quality || 75
 
 # Option 1: Output file to stdout
 # Not working in Ubuntu 12.04 (at least not in my environment)
 if options.buffer
-  page.render('/dev/stdout', format: 'pdf')
+  page.render('/dev/stdout', fileOptions)
 
 
 # Option 2: Output filename to stdout
 else
-  filename = options.filename || ("#{options.directory || '/tmp'}/phantom-pdf-#{sys.pid}-#{size}.pdf")
-  page.render(filename, format: 'pdf')
+  filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{sys.pid}-#{size}.#{fileOptions.type}")
+  page.render(filename, fileOptions)
   sys.stdout.write(filename)
 
 
