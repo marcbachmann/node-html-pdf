@@ -41,7 +41,7 @@ describe 'html-pdf', ->
     it 'does not throw an error when succeeding', (done) ->
       pdf.create @html, (error, pdf) =>
         @pdf = pdf
-        expect(error).to.be.undefined
+        expect(error).to.be.null
         fs.writeFile(path.join(__dirname,'simple.pdf'), pdf)
         done()
 
@@ -59,10 +59,9 @@ describe 'html-pdf', ->
         footer:
           contents: 'Page {{page}} of {{pages}}'
 
-
       pdf.create @html, options,(error, pdf) =>
         fs.writeFile(path.join(__dirname,'custom.pdf'), pdf)
-        expect(error).to.be.undefined
+        expect(error).to.be.null
         done()
 
 
@@ -75,5 +74,5 @@ describe 'html-pdf', ->
 
       pdf.create html, options,(error, pdf) =>
         fs.writeFile(path.join(__dirname,'businesscard.pdf'), pdf)
-        expect(error).to.be.undefined
+        expect(error).to.be.null
         done()

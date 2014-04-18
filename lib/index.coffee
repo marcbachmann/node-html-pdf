@@ -50,7 +50,7 @@ exports.create = (string, options, callback) ->
 
     file = Buffer.concat(stdout)
     if isFile = /^\%PDF/.test(file.slice(0, 4).toString())
-      callback(undefined, file)
+      callback(null, file)
 
     else
       filename = file.toString()
