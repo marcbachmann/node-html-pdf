@@ -1,0 +1,26 @@
+{
+  "name": "node-phantom-pdf-example",
+  "version": "0.0.1",
+  "description": "HTML to PDF converter that uses phantomjs",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "author": "Marc Bachmann",
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "^1.7.1",
+    "chai": "^1.9.1",
+    "grunt-mocha-test": "^0.10.2",
+    "grunt": "^0.4.4",
+    "mocha": "^1.18.2",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "dependencies": {
+    "async": "^0.7.0",
+    "phantomjs": "^1.9.7-3"
+  }
+}
