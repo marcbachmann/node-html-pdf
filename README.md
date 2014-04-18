@@ -1,6 +1,11 @@
 # node-html-pdf
 ## a HTML to PDF converter for node.js
-![image](test/businesscard.png)
+![image](http://public.admintools.ch/gh/html-pdf/businesscard.png)  
+[Example Business Card](http://public.admintools.ch/gh/html-pdf/businesscard.pdf)  
+ -> [and its Source file](test/businesscard.html)  
+
+[Example Receipt](http://public.admintools.ch/gh/html-pdf/order.pdf)
+
 
 ```javascript
 var fs = require('fs');
