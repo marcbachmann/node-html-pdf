@@ -1,5 +1,5 @@
 {
-  "name": "node-phantom-pdf-example",
+  "name": "html-pdf",
   "version": "0.0.1",
   "description": "HTML to PDF converter that uses phantomjs",
   "main": "index.js",
@@ -22,5 +22,20 @@
   "dependencies": {
     "async": "^0.7.0",
     "phantomjs": "^1.9.7-3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marcbachmann/node-html-pdf.git"
+  },
+  "keywords": [
+    "html",
+    "pdf",
+    "phantom",
+    "phantomjs",
+    "nodejs"
+  ],
+  "bugs": {
+    "url": "https://github.com/marcbachmann/node-html-pdf/issues"
+  },
+  "homepage": "https://github.com/marcbachmann/node-html-pdf"
 }
