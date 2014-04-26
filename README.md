@@ -26,12 +26,12 @@ pdf.create(htmlString, options, callback)
 ```
 
 ## Options
-`script`: Absolute path to a custom phantomjs script, use the file in lib/scripts as example
-`timeout`: Timeout that will cancel phantomjs, milliseconds as Integer, default: 10000
-`filename`: The file path of the file that will be written. If you want to save the file permanently, you have to pass this option.
-`directory`: The directory path of the file that will be written. default: '/tmp'
+`script`: Absolute path to a custom phantomjs script, use the file in lib/scripts as example  
+`timeout`: Timeout that will cancel phantomjs, milliseconds as Integer, default: 10000  
+`filename`: The file path of the file that will be written. If you want to save the file permanently, you have to pass this option.  
+`directory`: The directory path of the file that will be written. default: '/tmp'  
 
-The full options object gets converted to JSON and will get passed to the phantomjs script as third argument.
+The full options object gets converted to JSON and will get passed to the phantomjs script as third argument.  
+There are more options concerning the paperSize, header & footer options inside the phantomjs script.  
 
-There are more options concerning the paperSize, header & footer options inside the phantomjs script.
-Documentation will follow soon.
+## documentations for more available options will follow soon :)  
