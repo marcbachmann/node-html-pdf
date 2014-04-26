@@ -56,7 +56,12 @@ exports.create = (string, options, callback) ->
       filename = file.toString()
       fs.readFile filename, (err, buffer) ->
         return callback(err) if err
-        fs.unlink filename, (err) ->
+
+        # Only delete file when options.filename is not defined
+        unless options.filename
+          fs.unlink filename, (err) ->
+            callback(err, buffer)
+        else
           callback(err, buffer)
 
   child.stdin.write(string, 'utf8')
