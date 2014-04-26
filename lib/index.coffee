@@ -15,7 +15,6 @@ phantomjs = require('phantomjs')
 # - Page Footer  -> document.getElementById('pageFooter')
 #
 # When no #pageContent is available, phantomjs will use document.body as pdf content
-
 script = path.join(__dirname, 'scripts/pdf_a4_portrait.coffee')
 
 exports.create = (string, options, callback) ->
@@ -43,6 +42,7 @@ exports.create = (string, options, callback) ->
     child.kill()
 
   child.on 'exit', (code) ->
+    # Clean up the timeout cause the process ended anyways
     clearTimeout(timeout)
     if (stderr.length || code) > 0
       error = new Error(Buffer.concat(stderr).toString())
