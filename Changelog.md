@@ -1,3 +1,8 @@
+0.2.0
+=====
+- Support remote images in html template
+
+
 0.1.3
 =====
 - Update phantomjs node module dependency, some cdn changed
