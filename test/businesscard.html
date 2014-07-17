@@ -22,17 +22,46 @@
       }
 
       .group {
-        margin-top: 6mm;
+        margin-top: 3mm;
       }
 
       .line {
         color: white;
         position: relative;
       }
+
+      .ghost {
+        position: relative;
+        text-align: center;
+        -webkit-transform: scale(0.6);
+      }
+
+      .ghost .body {
+        z-index: 1;
+        position: relative;
+        height: 176px;
+        width: 125px;
+      }
+
+      .ghost .eyes {
+        z-index: 10;
+        position: absolute;
+        left: 50%;
+        margin-left: -22px;
+        top: 25%;
+        width: 44px;
+        height: 25px;
+        background: url('http://static.suitart.com/templates/eyes.gif');
+      }
+
     </style>
   </head>
   <body>
     <div class="bottom">
+      <div class="ghost">
+        <div class="eyes"></div>
+        <img class="body" src="http://static.suitart.com/templates/ghost.png">
+      </div>
       <div class="line">Marc Bachmann</div>
       <div class="line">cto</div>
 

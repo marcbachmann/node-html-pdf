@@ -56,24 +56,23 @@ else
 
 page.paperSize = paperSize
 
+page.onLoadFinished = (status) ->
+  # Output to parent process
+  fileOptions =
+    type: options.type || 'pdf'
+    quality: options.quality || 75
+
+  # Option 1: Output file to stdout
+  # Not working in Ubuntu 12.04 (at least not in my environment)
+  if options.buffer
+    page.render('/dev/stdout', fileOptions)
 
 
-# Output to parent process
-fileOptions =
-  type: options.type || 'pdf' 
-  quality: options.quality || 75
-
-# Option 1: Output file to stdout
-# Not working in Ubuntu 12.04 (at least not in my environment)
-if options.buffer
-  page.render('/dev/stdout', fileOptions)
+  # Option 2: Output filename to stdout
+  else
+    filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{sys.pid}-#{size}.#{fileOptions.type}")
+    page.render(filename, fileOptions)
+    sys.stdout.write(filename)
 
 
-# Option 2: Output filename to stdout
-else
-  filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{sys.pid}-#{size}.#{fileOptions.type}")
-  page.render(filename, fileOptions)
-  sys.stdout.write(filename)
-
-
-phantom.exit(0)
+  phantom.exit(0)
