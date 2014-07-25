@@ -1,3 +1,10 @@
+0.2.1
+=====
+- Support <script></script> in html head. It will be included in head, body & footer of a page.
+- Parse options.timeout. You can now pass a string.
+- Improved options documentation
+
+
 0.2.0
 =====
 - Support remote images in html template
