@@ -44,11 +44,11 @@ config = {
   "border": "0"              // default is 0, units: mm, cm, in, px
   "header": {
     "height": "45mm",
-    "contents": "<div style="text-align: center;">© Marc Bachmann</div>"
+    "contents": '<div style="text-align: center;">Author: Marc Bachmann</div>'
   },
   "footer": {
     "height": "28mm",
-    "contents": "<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>"
+    "contents": '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>'
   },
   
 
