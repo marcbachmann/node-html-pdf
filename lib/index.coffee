@@ -31,7 +31,7 @@ exports.create = (string, options, callback) ->
     child.stdin.end()
     child.kill()
     stderr = [new Buffer('PDF creation timeout. PDF generation script did not end.')] unless stderr.length
-  , options.timeout || 10000
+  , parseInt(options.timeout) || 10000
 
   child.stdout.on 'data', (buffer) ->
     stdout.push(buffer)
