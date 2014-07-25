@@ -2,14 +2,16 @@ sys = require('system')
 webpage = require('webpage')
 
 page = webpage.create()
-size = sys.args[1]
+bufferSize = sys.args[1]
 options = {}
 options = JSON.parse(sys.args[2]) if typeof sys.args[2] is 'string'
-page.content = sys.stdin.read(size)
+page.content = sys.stdin.read(bufferSize)
 
 
 # Set up content
+# --------------
 content = page.evaluate ->
+  styles = document.querySelector('head style')?.outerHTML || ''
   if $header = document.getElementById('pageHeader')
     header = $header.outerHTML
     $header.parentNode.removeChild($header)
@@ -21,41 +23,48 @@ content = page.evaluate ->
   if $body = document.getElementById('pageContent')
     body = $body.outerHTML
   else
-    document.body.outerHTML
+    body = document.body.outerHTML
 
-  return {
-    header:  header || ""
-    body: body || ""
-    footer: footer || ""
-  }
+  {styles, header, body, footer}
 
 
-# Set up options
-paperSize =
-  border: options.border || '0'
-  header: if options.header || content.header
-    height: options.header?.height || "45mm"
-    contents: phantom.callback (pageNum, numPages) ->
-      (options.header?.contents || content.header)
-        .replace('{{page}}', pageNum)
-        .replace('{{pages}}', numPages)
-
-  footer: if options.footer || content.footer
-    height: options.footer?.height || "28mm"
-    contents: phantom.callback (pageNum, numPages) ->
-      (options.footer?.contents || content.footer)
-        .replace('{{page}}', pageNum)
-        .replace('{{pages}}', numPages)
+# Set up paperSize options
+# -------------------------
+paper = border: options.border || '0'
 
 if options.height && options.width
-  paperSize.width = options.width
-  paperSize.height = options.height
+  paper.width = options.width
+  paper.height = options.height
 else
-  paperSize.format = options.format || 'A4'
-  paperSize.orientation = options.orientation || 'portrait'
+  paper.format = options.format || 'A4'
+  paper.orientation = options.orientation || 'portrait'
 
-page.paperSize = paperSize
 
+# Generate footer & header
+# ------------------------
+setContent = (type) ->
+  paper[type] =
+    height: options[type]?.height
+    contents: phantom.callback (pageNum, numPages) ->
+      (options[type]?.contents || content[type] || '')
+        .replace('{{page}}', pageNum)
+        .replace('{{pages}}', numPages)+content.styles
+
+for type in ['header', 'footer']
+  setContent(type) if options[type] || content[type]
+
+paper.header?.height ?= '45mm'
+paper.footer?.height ?= '28mm'
+
+
+# The paperSize object must be set at once
+# -----------------------------------------
+page.paperSize = paper
+
+
+
+# Completely load page & end process
+# ----------------------------------
 page.onLoadFinished = (status) ->
   # Output to parent process
   fileOptions =
@@ -70,7 +79,7 @@ page.onLoadFinished = (status) ->
 
   # Option 2: Output filename to stdout
   else
-    filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{sys.pid}-#{size}.#{fileOptions.type}")
+    filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{sys.pid}-#{bufferSize}.#{fileOptions.type}")
     page.render(filename, fileOptions)
     sys.stdout.write(filename)
 
