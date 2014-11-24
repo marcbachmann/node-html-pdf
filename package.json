@@ -12,15 +12,16 @@
   "author": "Marc Bachmann",
   "license": "MIT",
   "devDependencies": {
-    "coffee-script": "^1.7.1",
     "chai": "^1.9.1",
-    "grunt-mocha-test": "^0.10.2",
-    "grunt": "^0.4.4",
-    "mocha": "^1.18.2",
-    "grunt-contrib-watch": "^0.6.1"
+    "coffee-script": "^1.7.1",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-mocha-cli": "^1.11.0",
+    "mocha": "^1.18.2"
   },
   "dependencies": {
-    "phantomjs": "^1.9.7-8"
+    "phantomjs": "^1.9.8"
   },
   "repository": {
     "type": "git",
