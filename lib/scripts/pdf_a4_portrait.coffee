@@ -86,16 +86,15 @@ page.onLoadFinished = (status) ->
     type: options.type || 'pdf'
     quality: options.quality || 75
 
-  # Option 1: Output file to stdout
-  # Not working in Ubuntu 12.04 (at least not in my environment)
-  if options.buffer
-    system.stderr.write('html-pdf: options.buffer is deprecated. Because of compatibility issues this method will no longer supported.\n')
-    page.render('/dev/stdout', fileOptions)
-
-  # Option 2: Output filename to stdout
-  else
+  if !options.buffer
     filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{system.pid}.#{fileOptions.type}")
     page.render(filename, fileOptions)
     system.stdout.write(filename)
+
+  # Deprecated options.buffer method
+  else
+    system.stderr.write('html-pdf: options.buffer is deprecated. Because of compatibility issues this method is longer supported.\n')
+    page.render('/dev/stdout', fileOptions)
+
 
   exit(null)
