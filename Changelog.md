@@ -1,3 +1,9 @@
+0.3.0
+=====
+- Windows support #6
+- Deprecate buffer method, always write to file from the phantom process #6
+
+
 0.2.1
 =====
 - Support `<style></style>` in html head. It will be included in head, body & footer of a page.
@@ -29,5 +35,5 @@
 
 0.1.0
 =====
-- Initial pdf.create function with several options 
+- Initial pdf.create function with several options
 
