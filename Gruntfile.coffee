@@ -1,23 +1,23 @@
 module.exports = (grunt) ->
 
   grunt.initConfig
-    mochaTest:
+    mochacli:
       test:
         options:
           ui: 'bdd'
           reporter: 'spec'
-          require: ['coffee-script']
+          compilers: ['coffee:coffee-script/register']
           slow: '1ms'
-
-        src: ['test/**/*.coffee']
+          timeout: '10s'
+          files: 'test/**/*'
 
     watch:
       tests:
         files: ['test/**/*.coffee', 'lib/**/*.coffee']
-        tasks: ['mochaTest']
+        tasks: ['mochacli']
 
 
-  grunt.loadNpmTasks('grunt-mocha-test')
+  grunt.loadNpmTasks('grunt-mocha-cli')
   grunt.loadNpmTasks('grunt-contrib-watch')
 
-  grunt.registerTask('test', ['mochaTest', 'watch'])
+  grunt.registerTask('test', ['mochacli', 'watch'])

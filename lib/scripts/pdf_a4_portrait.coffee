@@ -1,11 +1,26 @@
-sys = require('system')
+system = require('system')
 webpage = require('webpage')
 
+# Error handler
+exit = (error) ->
+  message = error if typeof error is 'string'
+  system.stderr.write("html-pdf: #{message || "Unknown Error #{error}"}\n") if error
+  phantom.exit(if error then 1 else 0)
+
+
+# Force cleanup after 2 minutes
+setTimeout ->
+  exit('Force timeout')
+, 120000
+
+
+# Load configurations from stdin
+json = JSON.parse(system.stdin.readLine())
+exit('Did not receive any html') if !json.html?.trim()
+
+options = json.options
 page = webpage.create()
-bufferSize = sys.args[1]
-options = {}
-options = JSON.parse(sys.args[2]) if typeof sys.args[2] is 'string'
-page.content = sys.stdin.read(bufferSize)
+page.content = json.html
 
 
 # Set up content
@@ -71,17 +86,15 @@ page.onLoadFinished = (status) ->
     type: options.type || 'pdf'
     quality: options.quality || 75
 
-  # Option 1: Output file to stdout
-  # Not working in Ubuntu 12.04 (at least not in my environment)
-  if options.buffer
+  if !options.buffer
+    filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{system.pid}.#{fileOptions.type}")
+    page.render(filename, fileOptions)
+    system.stdout.write(filename)
+
+  # Deprecated options.buffer method
+  else
+    system.stderr.write('html-pdf: options.buffer is deprecated. Because of compatibility issues this method is longer supported.\n')
     page.render('/dev/stdout', fileOptions)
 
 
-  # Option 2: Output filename to stdout
-  else
-    filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{sys.pid}-#{bufferSize}.#{fileOptions.type}")
-    page.render(filename, fileOptions)
-    sys.stdout.write(filename)
-
-
-  phantom.exit(0)
+  exit(null)
