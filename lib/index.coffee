@@ -53,8 +53,6 @@ exports.create = (string, options, callback) ->
     try
       file = JSON.parse(file)
     catch err
-    if (err)
-      return callback(err)
     callback(null, file)
 
   content =
