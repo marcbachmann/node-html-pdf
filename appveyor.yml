@@ -4,7 +4,9 @@
 init: off
 
 # Test against these versions of Node.js.
-environment: off
+environment:
+  matrix:
+    - nodejs_version: "0.10"
 
 # Install scripts. (runs after repo cloning)
 install:
