@@ -62,10 +62,10 @@ setContent = (type) ->
   paper[type] =
     height: options[type]?.height
     contents: phantom.callback (pageNum, numPages) ->
+      nbPages = numPages
       (options[type]?.contents || content[type] || '')
         .replace('{{page}}', pageNum)
         .replace('{{pages}}', numPages)+content.styles
-        nbPages = numPages
 
 for type in ['header', 'footer']
   setContent(type) if options[type] || content[type]
