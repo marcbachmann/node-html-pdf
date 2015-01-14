@@ -4,7 +4,7 @@ path = require('path')
 phantomjs = require('phantomjs')
 
 #
-# phantomjs version 1.8.1 and later should work. Ubuntu has some problems when trying to buffer to /dev/stdout
+# phantomjs version 1.8.1 and later should work.
 #
 # Create a PDF file out of an html string.
 #
@@ -49,21 +49,13 @@ exports.create = (string, options, callback) ->
       return callback(error)
 
     file = Buffer.concat(stdout)
-    isFileBuffer = /^\%PDF/.test(file.slice(0, 4).toString())
 
-    if options.filename
-      callback(null, file.toString())
-
-    else if !isFileBuffer
-      filename = file.toString()
-      fs.readFile filename, (err, buffer) ->
-        return callback(err) if err
-        fs.unlink filename, (err) ->
-          callback(err, buffer)
-
-    else
-      callback(null, file)
-
+    try
+      file = JSON.parse(file)
+    catch err
+    if (err)
+      return callback(err)
+    callback(null, file)
 
   content =
     html: string

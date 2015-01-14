@@ -41,19 +41,17 @@ describe 'html-pdf', ->
     it 'does not throw an error when succeeding', (done) ->
       pdf.create @html, (error, pdf) =>
         expect(error).to.be.null
+        expect(pdf).to.be.defined
+        expect(pdf.filename).to.be.defined
+        expect(pdf.pages).to.be.defined
         done()
 
 
     it 'buffer must be returned when no filename specified', (done) ->
       pdf.create @html, (error, pdf) =>
         expect(pdf).to.be.defined
-        done()
-
-
-    it 'returns a pdf buffer', (done) ->
-      pdf.create @html, (error, pdf) =>
-        expect(Buffer.isBuffer(pdf), 'Expect to be a pdf Buffer').to.be.equal(true)
-        expect(/^\%PDF-1.4/.test(pdf.toString()), 'Has a PDF header').to.be.equal(true)
+        expect(pdf.filename).to.be.defined
+        expect(pdf.pages).to.be.defined
         done()
 
 

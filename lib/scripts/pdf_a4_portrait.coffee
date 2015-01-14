@@ -21,6 +21,7 @@ exit('Did not receive any html') if !json.html?.trim()
 options = json.options
 page = webpage.create()
 page.content = json.html
+nbPages = 0
 
 
 # Set up content
@@ -64,6 +65,7 @@ setContent = (type) ->
       (options[type]?.contents || content[type] || '')
         .replace('{{page}}', pageNum)
         .replace('{{pages}}', numPages)+content.styles
+        nbPages = numPages
 
 for type in ['header', 'footer']
   setContent(type) if options[type] || content[type]
@@ -86,15 +88,7 @@ page.onLoadFinished = (status) ->
     type: options.type || 'pdf'
     quality: options.quality || 75
 
-  if !options.buffer
-    filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{system.pid}.#{fileOptions.type}")
-    page.render(filename, fileOptions)
-    system.stdout.write(filename)
-
-  # Deprecated options.buffer method
-  else
-    system.stderr.write('html-pdf: options.buffer is deprecated. Because of compatibility issues this method is longer supported.\n')
-    page.render('/dev/stdout', fileOptions)
-
-
+  filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{system.pid}.#{fileOptions.type}")
+  page.render(filename, fileOptions)
+  system.stdout.write(JSON.stringify({ filename: filename, pages: nbPages }));
   exit(null)
