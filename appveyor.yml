@@ -8,9 +8,6 @@ environment:
   matrix:
     - nodejs_version: "0.10"
 
-# Allow failing jobs for bleeding-edge Node.js versions.
-matrix: off
-
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node 0.STABLE.latest
