@@ -1,8 +1,5 @@
 # http://www.appveyor.com/docs/appveyor-yml
 
-# Fix line endings in Windows. (runs before repo cloning)
-init: off
-
 # Test against these versions of Node.js.
 environment:
   matrix:
