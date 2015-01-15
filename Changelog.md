@@ -1,3 +1,8 @@
+0.4.0
+=====
+- buffer options is removed
+- create() method return on second argument, an object (if it could be parsed via JSON.parse(), the default script return an object with .filename and .pages keys), if your custom script return a raw text and cannot be parsed, the raw text will be sent back.
+
 0.3.0
 =====
 - Windows support #6

@@ -20,4 +20,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-mocha-cli')
   grunt.loadNpmTasks('grunt-contrib-watch')
 
-  grunt.registerTask('test', ['mochacli', 'watch'])
+  grunt.registerTask('test', ['mochacli'])
+  grunt.registerTask('default', ['watch'])
