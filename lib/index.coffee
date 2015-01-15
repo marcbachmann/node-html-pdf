@@ -55,6 +55,8 @@ exports.create = (string, options, callback) ->
     catch err
     callback(null, file)
 
+  if (options.filename)
+    options.filename = path.resolve(options.filename)
   content =
     html: string
     options: options
