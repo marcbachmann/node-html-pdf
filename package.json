@@ -2,7 +2,7 @@
   "name": "html-pdf",
   "version": "0.3.0",
   "description": "HTML to PDF converter that uses phantomjs",
-  "main": "index.js",
+  "main": "lib/index.js",
   "directories": {
     "test": "test"
   },

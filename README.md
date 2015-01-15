@@ -18,7 +18,18 @@ pdf.create(html, { width: '50mm', height: '90mm'}, function(err, buffer) {
 ```
 
 ## API
-Currently there is only one function
+```js
+pdf(html [, options], callback)
+pdf(html [, options]).exec(callback)
+pdf(html [, options]).toBuffer(callback)
+pdf(html [, options]).toStream()
+
+// for backward compatibility
+pdf.create(html [, options], callback)
+
+```
+
+
 ```javascript
 var pdf = require('html-pdf');
 var callback = function(err, buffer){}

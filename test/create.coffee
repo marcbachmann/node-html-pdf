@@ -44,14 +44,15 @@ describe 'html-pdf', ->
         done()
 
 
-    it 'buffer must be returned when no filename specified', (done) ->
-      pdf.create @html, (error, pdf) =>
-        expect(pdf).to.be.defined
+    it 'json must be returned', (done) ->
+      pdf(@html).exec (error, pdf) =>
+        expect(pdf).to.be.an('object')
+        expect(pdf.filename).to.be.a('string')
         done()
 
 
     it 'returns a pdf buffer', (done) ->
-      pdf.create @html, (error, pdf) =>
+      pdf(@html).toBuffer (err, pdf) =>
         expect(Buffer.isBuffer(pdf), 'Expect to be a pdf Buffer').to.be.equal(true)
         expect(/^\%PDF-1.4/.test(pdf.toString()), 'Has a PDF header').to.be.equal(true)
         done()
@@ -87,5 +88,5 @@ describe 'html-pdf', ->
 
       pdf.create html, options,(error, pdf) =>
         expect(error).to.be.null
-        expect(fs.existsSync(options.filename)).to.equal(true)
+        expect(fs.existsSync(options.filename), 'Saves the file to the desired destination').to.equal(true)
         done()
