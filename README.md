@@ -16,7 +16,7 @@ pdf.create(html, { filename: './businesscard.pdf', width: '50mm', height: '90mm'
   console.log(res);
   /*
     {
-      filename: './businesscard.pdf',
+      filename: '{absolute path}/businesscard.pdf',
       pages: 1
     }
   */
