@@ -21,7 +21,7 @@ exit('Did not receive any html') if !json.html?.trim()
 options = json.options
 page = webpage.create()
 page.content = json.html
-nbPages = 0
+pages = 0
 
 
 # Set up content
@@ -62,7 +62,7 @@ setContent = (type) ->
   paper[type] =
     height: options[type]?.height
     contents: phantom.callback (pageNum, numPages) ->
-      nbPages = numPages
+      pages = numPages
       (options[type]?.contents || content[type] || '')
         .replace('{{page}}', pageNum)
         .replace('{{pages}}', numPages)+content.styles
@@ -90,5 +90,5 @@ page.onLoadFinished = (status) ->
 
   filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{system.pid}.#{fileOptions.type}")
   page.render(filename, fileOptions)
-  system.stdout.write(JSON.stringify({ filename: filename, pages: nbPages }));
+  system.stdout.write(JSON.stringify({ filename: filename, pages: pages }));
   exit(null)
