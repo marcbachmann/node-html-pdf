@@ -1,6 +1,19 @@
 module.exports = (grunt) ->
 
   grunt.initConfig
+
+    coffee:
+      options:
+        bare: true
+      compile:
+        files: [
+          expand: true
+          cwd: "./lib"
+          src: ["**/*.coffee"]
+          dest: "./lib"
+          ext: ".js"
+        ]
+
     mochacli:
       test:
         options:
@@ -14,10 +27,12 @@ module.exports = (grunt) ->
     watch:
       tests:
         files: ['test/**/*.coffee', 'lib/**/*.coffee']
-        tasks: ['mochacli']
+        tasks: ['coffee', 'mochacli']
 
 
   grunt.loadNpmTasks('grunt-mocha-cli')
   grunt.loadNpmTasks('grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-contrib-coffee')
 
-  grunt.registerTask('test', ['mochacli', 'watch'])
+  grunt.registerTask('test', ['coffee', 'mochacli'])
+  grunt.registerTask('default', ['test', 'watch'])

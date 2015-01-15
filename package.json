@@ -16,6 +16,7 @@
     "coffee-script": "^1.7.1",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
+    "grunt-contrib-coffee": "^0.12.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha-cli": "^1.11.0",
     "mocha": "^1.18.2"
