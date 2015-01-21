@@ -6,55 +6,44 @@ expect = chai.expect
 pdf = require('../')
 
 
-describe 'html-pdf', ->
-  describe '#create()', ->
-    before ->
-      @html =  """
-        <html>
-          <head></head>
-          <body>
-            <div id="pageHeader">Header</div>
-            <div id="pageContent">Content</div>
-            <div id="pageFooter">Footer</div>
-          </body>
-        </html>
-      """
+describe 'pdf.create(string[, options][, callback])', ->
+  before ->
+    @html =  """
+      <html>
+        <head></head>
+        <body>
+          <div id="pageHeader">Header</div>
+          <div id="pageContent">Content</div>
+          <div id="pageFooter">Footer</div>
+        </body>
+      </html>
+    """
 
-    it 'throws error when passing null', (done) ->
-      pdf.create null, (error, pdf) ->
-        expect(error).to.be.instanceOf(Error)
-        expect(pdf).to.be.undefined
-        done()
+  describe 'throws an error when', ->
 
-    it 'throws error when passing undefined', (done) ->
-      pdf.create undefined, (error, pdf) ->
-        expect(error).to.be.instanceOf(Error)
-        expect(pdf).to.be.undefined
-        done()
-
-    it 'throws error when passing empty string', (done) ->
-      pdf.create '', (error, pdf) ->
-        expect(error).to.be.instanceOf(Error)
-        expect(pdf).to.be.undefined
-        done()
-
-    it 'does not throw an error when succeeding', (done) ->
-      pdf.create @html, (error, pdf) =>
-        expect(error).to.be.null
-        done()
+    [null, undefined, ''].forEach (val) ->
+      it "string is '#{val}'", ->
+        expect ->
+          pdf.create(val)
+        .to.throw(Error)
 
 
-    it 'json must be returned', (done) ->
-      pdf(@html).exec (error, pdf) =>
+  describe 'returns error in callback when', ->
+
+    [null, undefined, ''].forEach (val) ->
+      it  "string is '#{val}'", (done) ->
+        pdf.create val, (error, pdf) ->
+          expect(error).to.be.instanceOf(Error)
+          expect(pdf).to.be.undefined
+          done()
+
+
+  describe '.toFile([filename, ]callback)', ->
+
+    it 'returns {filename: "pathToFile"}', (done) ->
+      pdf.create(@html).exec (error, pdf) =>
         expect(pdf).to.be.an('object')
         expect(pdf.filename).to.be.a('string')
-        done()
-
-
-    it 'returns a pdf buffer', (done) ->
-      pdf(@html).toBuffer (err, pdf) =>
-        expect(Buffer.isBuffer(pdf), 'Expect to be a pdf Buffer').to.be.equal(true)
-        expect(/^\%PDF-1.4/.test(pdf.toString()), 'Has a PDF header').to.be.equal(true)
         done()
 
 
@@ -65,28 +54,44 @@ describe 'html-pdf', ->
         done()
 
 
-    it 'works with a custom page size and footer', (done) ->
-      options =
-        width: '3in'
-        height: '7in'
-        footer:
-          contents: 'Page {{page}} of {{pages}}'
+  describe '.toBuffer([filename, ]callback)', ->
 
-      pdf.create @html, options,(error, pdf) =>
-        fs.writeFile(path.join(__dirname,'custom.pdf'), pdf)
-        expect(error).to.be.null
+    it 'returns a pdf buffer', (done) ->
+      pdf.create(@html).toBuffer (err, pdf) =>
+        expect(Buffer.isBuffer(pdf), 'Expect to be a pdf Buffer').to.be.equal(true)
+        expect(/^\%PDF-1.4/.test(pdf.toString()), 'Has a PDF header').to.be.equal(true)
         done()
 
 
-    it 'works with custom html and css', (done) ->
-      template = path.join(__dirname,'businesscard.html')
-      html =  fs.readFileSync(template, 'utf8')
-      options =
-        width: '50mm'
-        height: '90mm'
-        filename: path.join(__dirname,'businesscard.pdf')
+  it 'works with a custom page size and footer', (done) ->
+    options =
+      width: '3in'
+      height: '7in'
+      footer:
+        contents: 'Page {{page}} of {{pages}}'
 
-      pdf.create html, options,(error, pdf) =>
-        expect(error).to.be.null
-        expect(fs.existsSync(options.filename), 'Saves the file to the desired destination').to.equal(true)
-        done()
+    pdf.create @html, options,(error, pdf) =>
+      fs.writeFile(path.join(__dirname,'custom.pdf'), pdf)
+      expect(error).to.be.null
+      done()
+
+
+  it 'works with custom html and css', (done) ->
+    template = path.join(__dirname,'businesscard.html')
+    html =  fs.readFileSync(template, 'utf8')
+    options =
+      width: '50mm'
+      height: '90mm'
+      filename: path.join(__dirname,'businesscard.pdf')
+
+    pdf.create html, options,(error, pdf) =>
+      expect(error).to.be.null
+      expect(fs.existsSync(options.filename), 'Saves the file to the desired destination').to.equal(true)
+      done()
+
+
+
+  it 'does not throw an error when succeeding', (done) ->
+    pdf.create @html, (error, pdf) =>
+      expect(error).to.be.null
+      done()

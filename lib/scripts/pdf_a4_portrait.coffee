@@ -21,6 +21,8 @@ exit('Did not receive any html') if !json.html?.trim()
 options = json.options
 page = webpage.create()
 page.content = json.html
+page.viewportSize = vp if vp = options.viewportSize
+totalPages = 0
 
 
 # Set up content

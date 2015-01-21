@@ -42,6 +42,17 @@ module.exports = class PDF
     stream
 
 
+  toFile: (filename, callback) ->
+    assert(arguments.length == 2, 'html-pdf: The method pdf.toFile([filename, ]callback) requires two arguments.')
+    if arguments.length == 1
+      callback = filename
+      filename = undefined
+    else
+      @options.filename = filename
+    @exec(callback)
+    stream
+
+
   exec: (callback) ->
     child = childprocess.spawn(phantomjs.path, [@script])
     stdout = []

@@ -1,6 +1,6 @@
 PDF = require('./pdf')
 
-module.exports = (html, options, callback) ->
+exports.create = (html, options, callback) ->
   if arguments.length == 1
     return new PDF(html)
 
@@ -17,7 +17,3 @@ module.exports = (html, options, callback) ->
     return callback(err)
 
   pdf.exec(callback)
-
-
-module.exports.create = ->
-  module.exports.apply(undefined, arguments)
