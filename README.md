@@ -7,40 +7,29 @@
 [Example Receipt](http://public.admintools.ch/gh/html-pdf/order.pdf)
 
 
+## Example
 ```javascript
 var fs = require('fs');
 var pdf = require('html-pdf');
 var html = fs.readFileSync('./test/businesscard.html', 'utf8')
 var options = { filename: './businesscard.pdf', format: 'Letter' };
-pdf(html, options).exec(function(err, res) {
+
+pdf.create(html, options).toFile(function(err, res) {
   if (err) return console.log(err);
-  console.log(res);
-  /*
-    {
-      filename: './businesscard.pdf',
-      pages: 1
-    }
-  */
+  console.log(res); // { filename: '/tmp/html-pdf-8ymPV.pdf' }
 });
 ```
 
 ## API
+
 ```js
-pdf(html [, options]).toFile(callback)
-pdf(html [, options]).toBuffer(callback)
-pdf(html [, options]).toStream(callback)
+pdf.create(html [, options]).toFile(callback)
+pdf.create(html [, options]).toBuffer(callback)
+pdf.create(html [, options]).toStream(callback)
 
 // for backward compatibility
 pdf.create(html [, options], callback)
 
-```
-
-
-```javascript
-var pdf = require('html-pdf');
-pdf.create(htmlString, options, function(err, res){
-  console.log(res); // { "filename": "/tmp/path" }
-})
 ```
 
 
@@ -53,10 +42,10 @@ config = {
   "directory": "/tmp"        // The directory the file gets written into if no filename is defined. default: '/tmp'
 
   // Papersize Options: http://phantomjs.org/api/webpage/property/paper-size.html
-  "height": "",              // allowed units: mm, cm, in, px
-  "width": "",               // allowed units: mm, cm, in, px
+  "height": "10.5in",        // allowed units: mm, cm, in, px
+  "width": "8in",            // allowed units: mm, cm, in, px
   - or -
-  "format": "A4",            // allowed units: A3, A4, A5, Legal, Letter, Tabloid
+  "format": "Letter",        // allowed units: A3, A4, A5, Legal, Letter, Tabloid
   "orientation": "portrait", // portrait or landscape
 
   // Page options
@@ -75,8 +64,8 @@ config = {
   "quality": "75",           // only used for types png & jpeg
 
   // Script options
-  script: '/url'           // Absolute path to a custom phantomjs script, use the file in lib/scripts as example
-  timeout: 10000           // Timeout that will cancel phantomjs, in milliseconds
+  "script": '/url'           // Absolute path to a custom phantomjs script, use the file in lib/scripts as example
+  "timeout": 10000           // Timeout that will cancel phantomjs, in milliseconds
 
 }
 ```

@@ -32,7 +32,11 @@ module.exports = class PDF
   toBuffer: (callback) ->
     @exec (err, res) ->
       return callback(err) if err
-      fs.readFile(res.filename, callback)
+      fs.readFile res.filename, (err, buffer) ->
+        return callback(err) if err
+        fs.unlink res.filename, (err) ->
+          return callback(err) if err
+          callback(null, buffer)
 
 
   toStream: (callback) ->
@@ -42,6 +46,8 @@ module.exports = class PDF
         stream = fs.createReadStream(res.filename)
       catch err
         return callback(err)
+
+      stream.on 'end', -> fs.unlink res.filename, (err) -> console.log('html-pdf:', err) if err
       callback(null, stream)
 
 
