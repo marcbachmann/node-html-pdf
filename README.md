@@ -26,10 +26,9 @@ pdf(html, options).exec(function(err, res) {
 
 ## API
 ```js
-pdf(html [, options], callback)
-pdf(html [, options]).exec(callback)
+pdf(html [, options]).toFile(callback)
 pdf(html [, options]).toBuffer(callback)
-pdf(html [, options]).toStream()
+pdf(html [, options]).toStream(callback)
 
 // for backward compatibility
 pdf.create(html [, options], callback)

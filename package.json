@@ -7,19 +7,14 @@
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "coffee --compile --output lib/ src/ && coffee test/index.coffee -n"
   },
   "author": "Marc Bachmann",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^1.9.1",
     "coffee-script": "^1.7.1",
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-coffee": "^0.12.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-mocha-cli": "^1.11.0",
-    "mocha": "^1.18.2"
+    "tape": "^3.4.0",
+    "tap-spec": "^2.2.0"
   },
   "dependencies": {
     "phantomjs": "^1.9.8"

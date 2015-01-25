@@ -91,7 +91,7 @@ page.onLoadFinished = (status) ->
   if !options.buffer
     filename = options.filename || ("#{options.directory || '/tmp'}/html-pdf-#{system.pid}.#{fileOptions.type}")
     page.render(filename, fileOptions)
-    system.stdout.write(filename)
+    system.stdout.write(JSON.stringify({filename}))
 
   # Deprecated options.buffer method
   else

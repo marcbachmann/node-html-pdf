@@ -1,4 +1,5 @@
 fs = require('fs')
+Stream = require('stream').Readable
 childprocess = require('child_process')
 path = require('path')
 assert = require('assert')
@@ -22,7 +23,7 @@ module.exports = class PDF
     if @options.script
       @script = path.normalize(@options.script)
     else
-      @script = path.join(__dirname, 'scripts', 'pdf_a4_portrait.coffee')
+      @script = path.join(__dirname, 'scripts', 'pdf_a4_portrait.js')
 
     @options.filename = path.resolve(@options.filename) if @options.filename
     assert(@html?.length, "html-pdf: Can't create a pdf without content")
@@ -34,23 +35,25 @@ module.exports = class PDF
       fs.readFile(res.filename, callback)
 
 
-  toStream: ->
-    stream = new fs.ReadStream
+  toStream: (callback) ->
     @exec (err, res) ->
       return callback(err) if err
-      fs.createReadStream(res.filename).pipe(stream)
-    stream
+      try
+        stream = fs.createReadStream(res.filename)
+      catch err
+        return callback(err)
+      callback(null, stream)
 
 
   toFile: (filename, callback) ->
-    assert(arguments.length == 2, 'html-pdf: The method pdf.toFile([filename, ]callback) requires two arguments.')
-    if arguments.length == 1
+    assert(arguments.length > 0, 'html-pdf: The method pdf.toFile([filename, ]callback) requires a callback.')
+    if filename instanceof Function
       callback = filename
       filename = undefined
     else
       @options.filename = filename
+
     @exec(callback)
-    stream
 
 
   exec: (callback) ->
@@ -78,8 +81,12 @@ module.exports = class PDF
         err = new Error(Buffer.concat(stderr).toString() or 'html-pdf: Unknown Error')
         return callback(err)
       else
-        filename = Buffer.concat(stdout).toString()?.trim()
-        callback(null, {filename})
+        try
+          data = Buffer.concat(stdout).toString()?.trim()
+          data = JSON.parse(data)
+        catch err
+          return callback(err)
+        callback(null, data)
 
     child.stdin.write(JSON.stringify({@html, @options})+'\n', 'utf8')
 
