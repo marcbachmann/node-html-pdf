@@ -7,18 +7,7 @@ test.createStream()
 fs = require('fs')
 path = require('path')
 pdf = require('../')
-
-
-html =  """
-  <html>
-    <head></head>
-    <body>
-      <div id="pageHeader">Header</div>
-      <div id="pageContent">Content</div>
-      <div id="pageFooter">Footer</div>
-    </body>
-  </html>
-"""
+html = fs.readFileSync(path.join(__dirname, 'example.html'), 'utf8')
 
 #
 # API
@@ -60,7 +49,7 @@ test 'pdf.create(html[, options]).toFile([filename, ]callback)', (st) ->
     st.assert(typeof pdf.filename == 'string', "toFile(callback) returns {filename: '#{pdf.filename}'} as second cb argument")
     fs.unlink(pdf.filename)
 
-  file = path.join(__dirname,'simple.pdf')
+  file = path.join(__dirname, 'simple.pdf')
   pdf.create(html).toFile file, (err, pdf) ->
     st.error(err)
     st.assert(pdf.filename == file, "toFile(filename, callback) returns {filename: '#{pdf.filename}'} as second cb argument")
@@ -82,7 +71,7 @@ test 'pdf.create(html[, options]).toStream(callback)', (st) ->
   stream = pdf.create(html).toStream (err, stream) ->
     st.error(err)
     st.assert(stream instanceof fs.ReadStream, "toStream(callback) returns a fs.ReadStream as second cb argument")
-    destination = __dirname+'/streamed.pdf'
+    destination = path.join(__dirname, 'streamed.pdf')
     stream.pipe fs.createWriteStream(destination)
     stream.on 'end', ->
       st.assert(fs.existsSync(destination), 'toStream returns a working readable stream')
@@ -95,14 +84,14 @@ test 'pdf.create(html[, options]).toStream(callback)', (st) ->
 test 'allows custom html and css', (st) ->
   st.plan(3)
 
-  template = path.join(__dirname,'businesscard.html')
+  template = path.join(__dirname, 'businesscard.html')
   filename = template.replace('.html', '.pdf')
-  html =  fs.readFileSync(template, 'utf8')
+  templateHtml =  fs.readFileSync(template, 'utf8')
   options =
     width: '50mm'
     height: '90mm'
 
-  pdf.create(html, options).toFile filename, (err, pdf) =>
+  pdf.create(templateHtml, options).toFile filename, (err, pdf) =>
     st.error(err)
     st.assert(pdf.filename, 'Returns the filename')
     st.assert(fs.existsSync(pdf.filename), 'Saves the file to the desired destination')
@@ -111,7 +100,7 @@ test 'allows custom html and css', (st) ->
 test 'allows custom page and footer options', (st) ->
   st.plan(3)
 
-  filename = path.join(__dirname,'custom.pdf')
+  filename = path.join(__dirname, 'custom.pdf')
   options =
     width: '3in'
     height: '7in'
@@ -119,6 +108,17 @@ test 'allows custom page and footer options', (st) ->
       contents: '<b style="color: red">page {{page}} of {{pages}}</b>'
 
   pdf.create(html, options).toFile filename, (error, pdf) ->
+    st.error(error)
+    st.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
+    st.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
+
+
+test 'load external css', (st) ->
+  st.plan(3)
+
+  enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-css.html'), 'utf8')
+  filename = path.join(__dirname, 'external-css.pdf')
+  pdf.create(enrichedHtml).toFile filename, (error, pdf) ->
     st.error(error)
     st.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
     st.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')

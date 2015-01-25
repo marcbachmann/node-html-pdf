@@ -23,11 +23,11 @@ pdf.create(html, options).toFile(function(err, res) {
 ## API
 
 ```js
-pdf.create(html [, options]).toFile(callback)
+pdf.create(html [, options]).toFile([filepath, ]callback)
 pdf.create(html [, options]).toBuffer(callback)
 pdf.create(html [, options]).toStream(callback)
 
-// for backward compatibility
+// for backwards compatibility
 pdf.create(html [, options], callback)
 
 ```
@@ -38,8 +38,7 @@ pdf.create(html [, options], callback)
 config = {
 
   // Export options
-  "filename": "/tmp/html-pdf-123-123.pdf" // The file path of the file that will be written. If you want to save the file permanently, you have to pass this option.
-  "directory": "/tmp"        // The directory the file gets written into if no filename is defined. default: '/tmp'
+  "directory": "/tmp"        // The directory the file gets written into if not using .toFile(filename, callback). default: '/tmp'
 
   // Papersize Options: http://phantomjs.org/api/webpage/property/paper-size.html
   "height": "10.5in",        // allowed units: mm, cm, in, px

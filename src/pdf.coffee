@@ -26,7 +26,7 @@ module.exports = class PDF
       @script = path.join(__dirname, 'scripts', 'pdf_a4_portrait.js')
 
     @options.filename = path.resolve(@options.filename) if @options.filename
-    assert(@html?.length, "html-pdf: Can't create a pdf without content")
+    assert(typeof @html is 'string' && @html.length, "html-pdf: Can't create a pdf without an html string")
 
 
   toBuffer: (callback) ->
@@ -52,12 +52,12 @@ module.exports = class PDF
 
 
   toFile: (filename, callback) ->
-    assert(arguments.length > 0, 'html-pdf: The method pdf.toFile([filename, ]callback) requires a callback.')
+    assert(arguments.length > 0, 'html-pdf: The method .toFile([filename, ]callback) requires a callback.')
     if filename instanceof Function
       callback = filename
       filename = undefined
     else
-      @options.filename = filename
+      @options.filename = path.resolve(filename)
 
     @exec(callback)
 

@@ -12,7 +12,7 @@ exit = (error) ->
 buildStack = (msg, trace) ->
   msgStack = [msg]
   if trace?.length
-    msgStack.push('TRACE:')
+    msgStack.push('Stack:')
     trace.forEach (t) ->
       msgStack.push("  at #{t.file || t.sourceURL}: #{t.line} (in function #{t.function})")
   msgStack.join('\n')
@@ -45,7 +45,7 @@ page.onError = (msg, trace) ->
 
 # Set up content
 # --------------
-content = page.evaluate (options) ->
+content = page.evaluate ->
   styles = document.querySelector('head style')?.outerHTML || ''
   if $header = document.getElementById('pageHeader')
     header = $header.outerHTML
@@ -88,7 +88,7 @@ setContent = (type) ->
 for type in ['header', 'footer']
   setContent(type) if options[type] || content[type]
 
-paper.header?.height ?= '45mm'
+paper.header?.height ?= '46mm'
 paper.footer?.height ?= '28mm'
 
 
