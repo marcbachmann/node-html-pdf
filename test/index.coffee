@@ -20,7 +20,9 @@ html =  """
   </html>
 """
 
-
+#
+# API
+#
 test 'pdf.create(html[, options]) throws an error when executing without html', (st) ->
   st.plan(3)
 
@@ -53,9 +55,10 @@ test 'pdf.create(html[, options], callback) returns error as first cb argument w
 test 'pdf.create(html[, options]).toFile([filename, ]callback)', (st) ->
   st.plan(5)
 
-  pdf.create(html).toFile (err, pdf) =>
+  pdf.create(html).toFile (err, pdf) ->
     st.error(err)
     st.assert(typeof pdf.filename == 'string', "toFile(callback) returns {filename: '#{pdf.filename}'} as second cb argument")
+    fs.unlink(pdf.filename)
 
   file = path.join(__dirname,'simple.pdf')
   pdf.create(html).toFile file, (err, pdf) ->
@@ -74,13 +77,21 @@ test 'pdf.create(html[, options]).toBuffer(callback)', (st) ->
 
 
 test 'pdf.create(html[, options]).toStream(callback)', (st) ->
-  st.plan(2)
+  st.plan(3)
 
   stream = pdf.create(html).toStream (err, stream) ->
     st.error(err)
-    st.assert(stream instanceof fs.ReadStream, "toStream(callback) returns a fs.ReadableStream as second cb argument")
+    st.assert(stream instanceof fs.ReadStream, "toStream(callback) returns a fs.ReadStream as second cb argument")
+    destination = __dirname+'/streamed.pdf'
+    stream.pipe fs.createWriteStream(destination)
+    stream.on 'end', ->
+      st.assert(fs.existsSync(destination), 'toStream returns a working readable stream')
+      fs.unlink(destination)
 
 
+#
+# Options
+#
 test 'allows custom html and css', (st) ->
   st.plan(3)
 

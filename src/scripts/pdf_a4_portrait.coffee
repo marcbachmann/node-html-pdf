@@ -8,6 +8,20 @@ exit = (error) ->
   phantom.exit(if error then 1 else 0)
 
 
+# Build stack to print
+buildStack = (msg, trace) ->
+  msgStack = [msg]
+  if trace?.length
+    msgStack.push('TRACE:')
+    trace.forEach (t) ->
+      msgStack.push("  at #{t.file || t.sourceURL}: #{t.line} (in function #{t.function})")
+  msgStack.join('\n')
+
+
+phantom.onError = (msg, trace) ->
+  exit(buildStack('Script - '+ msg, trace))
+
+
 # Force cleanup after 2 minutes
 setTimeout ->
   exit('Force timeout')
@@ -25,9 +39,13 @@ page.viewportSize = vp if vp = options.viewportSize
 totalPages = 0
 
 
+page.onError = (msg, trace) ->
+  exit(buildStack('Evaluation - '+ msg, trace))
+
+
 # Set up content
 # --------------
-content = page.evaluate ->
+content = page.evaluate (options) ->
   styles = document.querySelector('head style')?.outerHTML || ''
   if $header = document.getElementById('pageHeader')
     header = $header.outerHTML
@@ -77,7 +95,6 @@ paper.footer?.height ?= '28mm'
 # The paperSize object must be set at once
 # -----------------------------------------
 page.paperSize = paper
-
 
 
 # Completely load page & end process
