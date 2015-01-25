@@ -1,3 +1,24 @@
+1.0.0
+=====
+- Catch phantomjs errors [517d307](https://github.com/marcbachmann/node-html-pdf/commit/517d30762e3121f72aa3879e07f5944c05c4d96d)
+
+- new module API [#11](https://github.com/marcbachmann/node-html-pdf/pull/11)
+  ```js
+  pdf = require('html-pdf')
+  pdf.create(html).toFile(filepath, function(err, res){
+    console.log(res.filename);
+  });
+
+  pdf.create(html).toStream(filepath, function(err, stream){
+    steam.pipe(fs.createWriteStream('./foo.pdf'));
+  });
+
+  pdf.create(html).toBuffer(filepath, function(err, buffer){
+    console.log('This is a buffer:', Buffer.isBuffer(buffer));
+  });
+  ```
+
+
 0.3.0
 =====
 - Windows support #6
