@@ -9,11 +9,11 @@
     console.log(res.filename);
   });
 
-  pdf.create(html).toStream(filepath, function(err, stream){
+  pdf.create(html).toStream(function(err, stream){
     steam.pipe(fs.createWriteStream('./foo.pdf'));
   });
 
-  pdf.create(html).toBuffer(filepath, function(err, buffer){
+  pdf.create(html).toBuffer(function(err, buffer){
     console.log('This is a buffer:', Buffer.isBuffer(buffer));
   });
   ```

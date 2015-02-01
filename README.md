@@ -23,13 +23,23 @@ pdf.create(html, options).toFile(function(err, res) {
 ## API
 
 ```js
-pdf.create(html [, options]).toFile([filepath, ]callback)
-pdf.create(html [, options]).toBuffer(callback)
-pdf.create(html [, options]).toStream(callback)
+var pdf = require('html-pdf');
+pdf.create(html).toFile([filepath, ]function(err, res){
+  console.log(res.filename);
+});
+
+pdf.create(html).toStream(function(err, stream){
+  steam.pipe(fs.createWriteStream('./foo.pdf'));
+});
+
+pdf.create(html).toBuffer(function(err, buffer){
+  console.log('This is a buffer:', Buffer.isBuffer(buffer));
+});
+
 
 // for backwards compatibility
-pdf.create(html [, options], callback)
-
+// alias to pdf.create(html[, options]).toBuffer(callback)
+pdf.create(html [, options], function(err, buffer){});
 ```
 
 
@@ -38,7 +48,7 @@ pdf.create(html [, options], callback)
 config = {
 
   // Export options
-  "directory": "/tmp"        // The directory the file gets written into if not using .toFile(filename, callback). default: '/tmp'
+  "directory": "/tmp",       // The directory the file gets written into if not using .toFile(filename, callback). default: '/tmp'
 
   // Papersize Options: http://phantomjs.org/api/webpage/property/paper-size.html
   "height": "10.5in",        // allowed units: mm, cm, in, px
@@ -48,7 +58,15 @@ config = {
   "orientation": "portrait", // portrait or landscape
 
   // Page options
-  "border": "0"              // default is 0, units: mm, cm, in, px
+  "border": "0",             // default is 0, units: mm, cm, in, px
+  - or -
+  "border": {
+    "top": "2in",            // default is 0, units: mm, cm, in, px
+    "right": "1in",
+    "bottom": "2in",
+    "left": "1.5in"
+  },
+
   "header": {
     "height": "45mm",
     "contents": '<div style="text-align: center;">Author: Marc Bachmann</div>'
