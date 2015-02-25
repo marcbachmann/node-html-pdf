@@ -16,7 +16,7 @@
     "tape": "^3.4.0",
     "tap-spec": "^2.2.0"
   },
-  "dependencies": {
+  "optionalDependencies": {
     "phantomjs": "^1.9.8"
   },
   "repository": {

@@ -81,8 +81,9 @@ config = {
   "quality": "75",           // only used for types png & jpeg
 
   // Script options
-  "script": '/url'           // Absolute path to a custom phantomjs script, use the file in lib/scripts as example
-  "timeout": 10000           // Timeout that will cancel phantomjs, in milliseconds
+  "phantomPath": "./node_modules/phantomjs/bin/phantomjs", // PhantomJS binary which should get downloaded automatically
+  "script": '/url',           // Absolute path to a custom phantomjs script, use the file in lib/scripts as example
+  "timeout": 30000           // Timeout that will cancel phantomjs, in milliseconds
 
 }
 ```
