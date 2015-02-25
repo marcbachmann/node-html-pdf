@@ -1,3 +1,8 @@
+1.1.0
+=====
+- From now on options.phantomPath allows you to overwrite the default PhantomJS binary path.
+
+
 1.0.0
 =====
 - Catch phantomjs errors [517d307](https://github.com/marcbachmann/node-html-pdf/commit/517d30762e3121f72aa3879e07f5944c05c4d96d)

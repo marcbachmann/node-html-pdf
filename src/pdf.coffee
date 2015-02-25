@@ -3,7 +3,11 @@ Stream = require('stream').Readable
 childprocess = require('child_process')
 path = require('path')
 assert = require('assert')
-phantomjs = require('phantomjs')
+
+try
+  phantomjs = require('phantomjs')
+catch err
+  console.log('html-pdf: Failed to load PhantomJS module.', err)
 
 #
 # phantomjs version 1.8.1 and later should work.
@@ -26,6 +30,8 @@ module.exports = class PDF
       @script = path.join(__dirname, 'scripts', 'pdf_a4_portrait.js')
 
     @options.filename = path.resolve(@options.filename) if @options.filename
+    @options.phantomPath ?= phantomjs?.path
+    assert(@options.phantomPath, "html-pdf: Failed to load PhantomJS module. You have to set the path to the PhantomJS binary using 'options.phantomPath'")
     assert(typeof @html is 'string' && @html.length, "html-pdf: Can't create a pdf without an html string")
 
 
@@ -63,7 +69,7 @@ module.exports = class PDF
 
 
   exec: (callback) ->
-    child = childprocess.spawn(phantomjs.path, [@script])
+    child = childprocess.spawn(@options.phantomPath, [@script])
     stdout = []
     stderr = []
 
