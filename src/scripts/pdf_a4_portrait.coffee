@@ -46,7 +46,7 @@ page.onError = (msg, trace) ->
 # Set up content
 # --------------
 content = page.evaluate ->
-  styles = document.querySelector('head style')?.outerHTML || ''
+  styles = document.querySelector('head')?.outerHTML || ''
   if $header = document.getElementById('pageHeader')
     header = $header.outerHTML
     $header.parentNode.removeChild($header)
