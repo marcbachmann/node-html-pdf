@@ -46,7 +46,8 @@ page.onError = (msg, trace) ->
 # Set up content
 # --------------
 content = page.evaluate ->
-  styles = document.querySelector('head style')?.outerHTML || ''
+  styles = document.querySelectorAll('link,style')
+  styles = Array::reduce.call(styles, ((string, node) -> string+node.outerHTML),'')
   if $header = document.getElementById('pageHeader')
     header = $header.outerHTML
     $header.parentNode.removeChild($header)
