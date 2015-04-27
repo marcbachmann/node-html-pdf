@@ -1,3 +1,10 @@
+1.2.0
+=====
+- Add `options.phantomArgs` option requested in [#22](https://github.com/marcbachmann/node-html-pdf/issues/22)
+- Also load CSS of html head in PDF header & footer [#31](https://github.com/marcbachmann/node-html-pdf/issues/31), [#27](https://github.com/marcbachmann/node-html-pdf/issues/27)
+- Support iojs by upgrading the phantomjs module to v1.9.16
+
+
 1.1.0
 =====
 - From now on options.phantomPath allows you to overwrite the default PhantomJS binary path.

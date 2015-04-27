@@ -1,6 +1,6 @@
 {
   "name": "html-pdf",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "HTML to PDF converter that uses phantomjs",
   "main": "lib/index.js",
   "directories": {
@@ -17,7 +17,7 @@
     "tap-spec": "^2.2.0"
   },
   "optionalDependencies": {
-    "phantomjs": "^1.9.8"
+    "phantomjs": "^1.9.16"
   },
   "repository": {
     "type": "git",
