@@ -69,7 +69,7 @@ module.exports = class PDF
 
 
   exec: (callback) ->
-    child = childprocess.spawn(@options.phantomPath, [@script])
+    child = childprocess.spawn(@options.phantomPath, [@script].concat(@options.phantomArgs))
     stdout = []
     stderr = []
 
