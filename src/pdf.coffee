@@ -33,6 +33,7 @@ module.exports = class PDF
     @options.phantomPath ?= phantomjs?.path
     assert(@options.phantomPath, "html-pdf: Failed to load PhantomJS module. You have to set the path to the PhantomJS binary using 'options.phantomPath'")
     assert(typeof @html is 'string' && @html.length, "html-pdf: Can't create a pdf without an html string")
+    @options.timeout = parseInt(@options.timeout) || 30000
 
 
   toBuffer: (callback) ->
@@ -77,7 +78,7 @@ module.exports = class PDF
       child.stdin.end()
       child.kill()
       stderr = [new Buffer('html-pdf: PDF generation timeout. Phantom.js script did not exit.')] unless stderr.length
-    , parseInt(@options.timeout) || 30000
+    , @options.timeout
 
     child.stdout.on 'data', (buffer) ->
       stdout.push(buffer)
