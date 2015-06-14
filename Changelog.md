@@ -1,3 +1,8 @@
+1.2.1
+=====
+- Remove 2 minute force timeout [#40](https://github.com/marcbachmann/node-html-pdf/issues/40)
+
+
 1.2.0
 =====
 - Add `options.phantomArgs` option requested in [#22](https://github.com/marcbachmann/node-html-pdf/issues/22)
