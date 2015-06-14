@@ -23,13 +23,7 @@
     "type": "git",
     "url": "git://github.com/marcbachmann/node-html-pdf.git"
   },
-  "keywords": [
-    "html",
-    "pdf",
-    "phantom",
-    "phantomjs",
-    "nodejs"
-  ],
+  "keywords": ["html", "pdf", "phantom", "phantomjs", "nodejs"],
   "bugs": {
     "url": "https://github.com/marcbachmann/node-html-pdf/issues"
   },

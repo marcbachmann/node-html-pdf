@@ -22,12 +22,6 @@ phantom.onError = (msg, trace) ->
   exit(buildStack('Script - '+ msg, trace))
 
 
-# Force cleanup after 2 minutes
-setTimeout ->
-  exit('Force timeout')
-, 120000
-
-
 # Load configurations from stdin
 json = JSON.parse(system.stdin.readLine())
 exit('Did not receive any html') if !json.html?.trim()
@@ -41,6 +35,13 @@ totalPages = 0
 
 page.onError = (msg, trace) ->
   exit(buildStack('Evaluation - '+ msg, trace))
+
+
+# Force cleanup after 2 minutes
+timeout = timeout+2000 if timeout = json.options.timeout
+setTimeout ->
+  exit('Force timeout')
+, timeout || 12000
 
 
 # Set up content
