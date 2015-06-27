@@ -53,16 +53,24 @@ content = page.evaluate ->
     header = $header.outerHTML
     $header.parentNode.removeChild($header)
 
+  if $fpHeader = document.getElementById('firstPageHeader')
+    fpHeader = $fpHeader.outerHTML
+    $fpHeader.parentNode.removeChild($fpHeader)
+
   if $footer = document.getElementById('pageFooter')
     footer = $footer.outerHTML
     $footer.parentNode.removeChild($footer)
+
+  if $fpFooter = document.getElementById('firstPageFooter')
+    fpFooter = $fpFooter.outerHTML
+    $fpFooter.parentNode.removeChild($fpFooter)
 
   if $body = document.getElementById('pageContent')
     body = $body.outerHTML
   else
     body = document.body.outerHTML
 
-  {styles, header, body, footer}
+  {styles, header, fpHeader, body, footer, fpFooter}
 
 
 # Set up paperSize options
@@ -80,12 +88,16 @@ else
 # Generate footer & header
 # ------------------------
 setContent = (type) ->
-  paper[type] =
+  fpType = 'fp' + type.charAt(0).toUpperCase() + type.slice(1)
+  return paper[type] =
     height: options[type]?.height
     contents: phantom.callback (pageNum, numPages) ->
-      (options[type]?.contents || content[type] || '')
+      return (options[fpType]?.contents || content[fpType] || options[type]?.contents || content[type] || '')
         .replace('{{page}}', pageNum)
-        .replace('{{pages}}', numPages)+content.styles
+        .replace('{{pages}}', numPages)+content.styles if pageNum == 1
+      return (options[type]?.contents || content[type] || '')
+        .replace('{{page}}', pageNum)
+        .replace('{{pages}}', numPages)+content.styles if pageNum > 1
 
 for type in ['header', 'footer']
   setContent(type) if options[type] || content[type]
