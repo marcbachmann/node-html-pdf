@@ -118,7 +118,7 @@ test 'allows different header and footer for first page', (st) ->
 
   enrichedHtml = fs.readFileSync(path.join(__dirname, 'multiple-pages.html'), 'utf8')
   filename = path.join(__dirname, 'multiple-pages.pdf')
-  pdf.create(enrichedHtml).toFile filename, (error, pdf) ->
+  pdf.create(enrichedHtml, quality: 100).toFile filename, (error, pdf) ->
     st.error(error)
     st.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
     st.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
