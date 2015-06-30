@@ -12,11 +12,11 @@
 var fs = require('fs');
 var pdf = require('html-pdf');
 var html = fs.readFileSync('./test/businesscard.html', 'utf8')
-var options = { filename: './businesscard.pdf', format: 'Letter' };
+var options = { format: 'Letter' };
 
-pdf.create(html, options).toFile(function(err, res) {
+pdf.create(html, options).toFile('./businesscard.pdf', function(err, res) {
   if (err) return console.log(err);
-  console.log(res); // { filename: '/tmp/html-pdf-8ymPV.pdf' }
+  console.log(res); // { filename: '/app/businesscard.pdf' }
 });
 ```
 
@@ -29,7 +29,7 @@ pdf.create(html).toFile([filepath, ]function(err, res){
 });
 
 pdf.create(html).toStream(function(err, stream){
-  steam.pipe(fs.createWriteStream('./foo.pdf'));
+  stream.pipe(fs.createWriteStream('./foo.pdf'));
 });
 
 pdf.create(html).toBuffer(function(err, buffer){

@@ -27,7 +27,7 @@
   });
 
   pdf.create(html).toStream(function(err, stream){
-    steam.pipe(fs.createWriteStream('./foo.pdf'));
+    stream.pipe(fs.createWriteStream('./foo.pdf'));
   });
 
   pdf.create(html).toBuffer(function(err, buffer){
