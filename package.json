@@ -6,6 +6,9 @@
   "directories": {
     "test": "test"
   },
+  "bin": {
+    "htmlpdf": "cli/index.js"
+  },
   "scripts": {
     "test": "coffee --compile --output lib/ src/ && coffee test/index.coffee -n"
   },
