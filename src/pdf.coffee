@@ -31,6 +31,7 @@ module.exports = class PDF
 
     @options.filename = path.resolve(@options.filename) if @options.filename
     @options.phantomPath ?= phantomjs?.path
+    @options.phantomArgs ?= []
     assert(@options.phantomPath, "html-pdf: Failed to load PhantomJS module. You have to set the path to the PhantomJS binary using 'options.phantomPath'")
     assert(typeof @html is 'string' && @html.length, "html-pdf: Can't create a pdf without an html string")
     @options.timeout = parseInt(@options.timeout) || 30000
@@ -70,7 +71,7 @@ module.exports = class PDF
 
 
   exec: (callback) ->
-    child = childprocess.spawn(@options.phantomPath, [@script].concat(@options.phantomArgs))
+    child = childprocess.spawn(@options.phantomPath, [].concat(@options.phantomArgs, [@script]))
     stdout = []
     stderr = []
 
