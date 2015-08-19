@@ -17,7 +17,7 @@
     "tap-spec": "^2.2.0"
   },
   "optionalDependencies": {
-    "phantomjs": "^1.9.16"
+    "phantomjs": "^1.9.18"
   },
   "repository": {
     "type": "git",
