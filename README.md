@@ -6,8 +6,21 @@
 
 [Example Receipt](http://public.admintools.ch/gh/html-pdf/order.pdf)
 
+## Installation
 
-## Example
+Install the html-pdf utility via [npm](http://npmjs.org/):
+
+```
+$ npm install -g html-pdf
+```
+
+## Command-line example
+
+```
+$ htmlpdf test/businesscard.html businesscard.pdf
+```
+
+## Code example
 ```javascript
 var fs = require('fs');
 var pdf = require('html-pdf');
