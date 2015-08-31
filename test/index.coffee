@@ -84,9 +84,14 @@ test 'pdf.create(html[, options]).toStream(callback)', (st) ->
 test 'allows custom html and css', (st) ->
   st.plan(3)
 
-  template = path.join(__dirname, 'businesscard.html')
+  template = path.join(__dirname, '../example/businesscard.html')
   filename = template.replace('.html', '.pdf')
   templateHtml =  fs.readFileSync(template, 'utf8')
+
+  image = path.join('file://', __dirname, '../example/image.png')
+  console.log(image)
+  templateHtml = templateHtml.replace('{{image}}', image)
+
   options =
     width: '50mm'
     height: '90mm'

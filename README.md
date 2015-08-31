@@ -1,8 +1,8 @@
 # node-html-pdf
-## a HTML to PDF converter that wraps phantomjs
-![image](http://public.admintools.ch/gh/html-pdf/businesscard.png)  
-[Example Business Card](http://public.admintools.ch/gh/html-pdf/businesscard.pdf)  
- -> [and its Source file](test/businesscard.html)  
+## HTML to PDF converter that uses phantomjs
+![image](example/businesscard.png)  
+[Example Business Card](example/businesscard.pdf)  
+ -> [and its Source file](example/businesscard.html)  
 
 [Example Receipt](http://public.admintools.ch/gh/html-pdf/order.pdf)
 
