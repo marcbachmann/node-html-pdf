@@ -7,17 +7,21 @@
     "test": "test"
   },
   "bin": {
-    "htmlpdf": "cli/index.js"
+    "html-pdf": "bin/index.js"
   },
   "scripts": {
-    "test": "coffee --compile --output lib/ src/ && coffee test/index.coffee -n"
+    "build": "coffee --compile --output lib/ src/",
+    "standard": "standard bin/index.js",
+    "exectest": "coffee test/index.coffee -n",
+    "test": "npm run standard && npm run build  && npm run exectest"
   },
   "author": "Marc Bachmann",
   "license": "MIT",
   "devDependencies": {
     "coffee-script": "^1.7.1",
-    "tape": "^3.4.0",
-    "tap-spec": "^2.2.0"
+    "standard": "^5.1.1",
+    "tap-spec": "^2.2.0",
+    "tape": "^3.4.0"
   },
   "optionalDependencies": {
     "phantomjs": "^1.9.16"
@@ -26,7 +30,13 @@
     "type": "git",
     "url": "git://github.com/marcbachmann/node-html-pdf.git"
   },
-  "keywords": ["html", "pdf", "phantom", "phantomjs", "nodejs"],
+  "keywords": [
+    "html",
+    "pdf",
+    "phantom",
+    "phantomjs",
+    "nodejs"
+  ],
   "bugs": {
     "url": "https://github.com/marcbachmann/node-html-pdf/issues"
   },
