@@ -17,7 +17,7 @@ $ npm install -g html-pdf
 ## Command-line example
 
 ```
-$ htmlpdf test/businesscard.html businesscard.pdf
+$ html-pdf test/businesscard.html businesscard.pdf
 ```
 
 ## Code example
