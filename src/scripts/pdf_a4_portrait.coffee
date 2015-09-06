@@ -28,6 +28,10 @@ exit('Did not receive any html') if !json.html?.trim()
 
 options = json.options
 page = webpage.create()
+
+if options.httpHeaders
+  page.customHeaders = options.httpHeaders
+
 page.content = json.html
 page.viewportSize = vp if vp = options.viewportSize
 totalPages = 0

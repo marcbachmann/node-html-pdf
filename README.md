@@ -97,7 +97,13 @@ config = {
   "phantomPath": "./node_modules/phantomjs/bin/phantomjs", // PhantomJS binary which should get downloaded automatically
   "phantomArgs": [], // array of strings used as phantomjs args e.g. ["--ignore-ssl-errors=yes"]
   "script": '/url',           // Absolute path to a custom phantomjs script, use the file in lib/scripts as example
-  "timeout": 30000           // Timeout that will cancel phantomjs, in milliseconds
+  "timeout": 30000,           // Timeout that will cancel phantomjs, in milliseconds
+
+  // HTTP Headers that are used for requests
+  "httpHeaders": {
+    // e.g.
+    "Authorization": "Bearer ACEFAD8C-4B4D-4042-AB30-6C735F5BAC8B"
+  }
 
 }
 ```
