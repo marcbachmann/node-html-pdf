@@ -1,3 +1,9 @@
+1.4.0
+=====
+- Add `httpHeaders` option.
+- Fix loading of remote assets by implementing loadFinish event correctly
+
+
 1.2.1
 =====
 - Remove 2 minute force timeout [#40](https://github.com/marcbachmann/node-html-pdf/issues/40)
