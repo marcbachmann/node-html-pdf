@@ -89,7 +89,6 @@ test 'allows custom html and css', (st) ->
   templateHtml =  fs.readFileSync(template, 'utf8')
 
   image = path.join('file://', __dirname, '../example/image.png')
-  console.log(image)
   templateHtml = templateHtml.replace('{{image}}', image)
 
   options =

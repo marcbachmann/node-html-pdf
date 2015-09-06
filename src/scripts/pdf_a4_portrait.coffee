@@ -38,15 +38,17 @@ page.onError = (msg, trace) ->
 
 
 # Force cleanup after 2 minutes
-timeout = timeout+2000 if timeout = json.options.timeout
+# Add 2 seconds to make sure master process triggers kill
+# before to the phantom process
+timeout = (options.timeout || 120000) + 2000
 setTimeout ->
   exit('Force timeout')
-, timeout || 12000
+, timeout
 
 
 # Returns a hash of HTML content
 # ------------------------------
-getContent = () ->
+getContent = ->
   page.evaluate ->
     styles = document.querySelectorAll('link,style')
     styles = Array::reduce.call(styles, ((string, node) -> string+node.outerHTML),'')
