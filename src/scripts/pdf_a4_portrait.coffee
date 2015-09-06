@@ -44,64 +44,75 @@ setTimeout ->
 , timeout || 12000
 
 
-# Set up content
-# --------------
-content = page.evaluate ->
-  styles = document.querySelectorAll('link,style')
-  styles = Array::reduce.call(styles, ((string, node) -> string+node.outerHTML),'')
-  if $header = document.getElementById('pageHeader')
-    header = $header.outerHTML
-    $header.parentNode.removeChild($header)
+# Returns a hash of HTML content
+# ------------------------------
+getContent = () ->
+  page.evaluate ->
+    styles = document.querySelectorAll('link,style')
+    styles = Array::reduce.call(styles, ((string, node) -> string+node.outerHTML),'')
+    if $header = document.getElementById('pageHeader')
+      header = $header.outerHTML
+      $header.parentNode.removeChild($header)
 
-  if $footer = document.getElementById('pageFooter')
-    footer = $footer.outerHTML
-    $footer.parentNode.removeChild($footer)
+    if $footer = document.getElementById('pageFooter')
+      footer = $footer.outerHTML
+      $footer.parentNode.removeChild($footer)
 
-  if $body = document.getElementById('pageContent')
-    body = $body.outerHTML
+    if $body = document.getElementById('pageContent')
+      body = $body.outerHTML
+    else
+      body = document.body.outerHTML
+
+    {styles, header, body, footer}
+
+
+# Creates paper with specified options
+# ------------------------------------
+createPaper = (options) ->
+  paper = border: options.border || '0'
+
+  if options.height && options.width
+    paper.width = options.width
+    paper.height = options.height
   else
-    body = document.body.outerHTML
+    paper.format = options.format || 'A4'
+    paper.orientation = options.orientation || 'portrait'
 
-  {styles, header, body, footer}
-
-
-# Set up paperSize options
-# -------------------------
-paper = border: options.border || '0'
-
-if options.height && options.width
-  paper.width = options.width
-  paper.height = options.height
-else
-  paper.format = options.format || 'A4'
-  paper.orientation = options.orientation || 'portrait'
+  paper
 
 
-# Generate footer & header
-# ------------------------
-setContent = (type) ->
-  paper[type] =
-    height: options[type]?.height
-    contents: phantom.callback (pageNum, numPages) ->
-      (options[type]?.contents || content[type] || '')
-        .replace('{{page}}', pageNum)
-        .replace('{{pages}}', numPages)+content.styles
-
-for type in ['header', 'footer']
-  setContent(type) if options[type] || content[type]
-
-paper.header?.height ?= '46mm'
-paper.footer?.height ?= '28mm'
+# Creates page section
+# --------------------
+createSection = (content, styles, options) ->
+  height: options?.height
+  contents: phantom.callback (pageNum, numPages) ->
+    (options?.contents || content || '')
+      .replace('{{page}}', pageNum)
+      .replace('{{pages}}', numPages)+styles
 
 
-# The paperSize object must be set at once
-# -----------------------------------------
-page.paperSize = paper
+# Creates paper with generated footer & header
+# --------------------------------------------
+generatePaper = (content, options) ->
+  paper = createPaper(options)
+
+  for section in ['header', 'footer']
+    if options[section] || content[section]
+      paper[section] =
+        createSection(content[section], content.styles, options[section])
+
+  paper.header?.height ?= '46mm'
+  paper.footer?.height ?= '28mm'
+
+  paper
 
 
 # Completely load page & end process
 # ----------------------------------
 page.onLoadFinished = (status) ->
+  # The paperSize object must be set at once
+  page.paperSize = generatePaper(getContent(), options)
+
   # Output to parent process
   fileOptions =
     type: options.type || 'pdf'
