@@ -1,0 +1,10 @@
+# Development Files
+src/
+test/
+
+# Example Files
+example/
+*.pdf
+
+# Travis CI Files
+.travis.yml
