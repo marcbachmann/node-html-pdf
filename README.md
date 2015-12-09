@@ -24,7 +24,7 @@ $ html-pdf test/businesscard.html businesscard.pdf
 ```javascript
 var fs = require('fs');
 var pdf = require('html-pdf');
-var html = fs.readFileSync('./test/businesscard.html', 'utf8')
+var html = fs.readFileSync('./test/businesscard.html', 'utf8');
 var options = { format: 'Letter' };
 
 pdf.create(html, options).toFile('./businesscard.pdf', function(err, res) {
