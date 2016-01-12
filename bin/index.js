@@ -2,7 +2,7 @@
 
 var fs = require('fs')
 var pdf = require('../')
-var path = require('path');
+var path = require('path')
 
 var args = process.argv.slice(2)
 
