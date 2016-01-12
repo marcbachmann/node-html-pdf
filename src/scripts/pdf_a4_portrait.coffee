@@ -32,7 +32,11 @@ page = webpage.create()
 if options.httpHeaders
   page.customHeaders = options.httpHeaders
 
-page.content = json.html
+if options.base
+  page.setContent(json.html, options.base)
+else
+  page.content = json.html
+
 page.viewportSize = vp if vp = options.viewportSize
 totalPages = 0
 
