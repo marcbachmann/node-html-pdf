@@ -35,7 +35,7 @@ if options.httpHeaders
 if options.base
   page.setContent(json.html, options.base)
 else
-  page.content = json.html
+  page.setContent(json.html, null)
 
 page.viewportSize = vp if vp = options.viewportSize
 totalPages = 0
