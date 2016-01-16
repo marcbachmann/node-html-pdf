@@ -90,17 +90,21 @@ module.exports = class PDF
       child.kill()
 
     child.on 'exit', (code) ->
-      clearTimeout(timeout)
-      if code || stderr.length
-        err = new Error(Buffer.concat(stderr).toString() or 'html-pdf: Unknown Error')
-        return callback(err)
-      else
-        try
-          data = Buffer.concat(stdout).toString()?.trim()
-          data = JSON.parse(data)
-        catch err
+      # Wait X milliseconds after the 'exit' event being fired
+      # as 'data' event might still be processing
+      phantomExitTimeout = (@options.phantomExitTimeout || 60)
+      setTimeout ->
+        clearTimeout(timeout)
+        if code || stderr.length
+          err = new Error(Buffer.concat(stderr).toString() or 'html-pdf: Unknown Error')
           return callback(err)
-        callback(null, data)
-
+        else
+          try
+            data = Buffer.concat(stdout).toString()?.trim()
+            data = JSON.parse(data)
+          catch err
+            return callback(err)
+          callback(null, data)
+      , phantomExitTimeout
     child.stdin.write(JSON.stringify({@html, @options})+'\n', 'utf8')
 
