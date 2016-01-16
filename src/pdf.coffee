@@ -74,6 +74,7 @@ module.exports = class PDF
     child = childprocess.spawn(@options.phantomPath, [].concat(@options.phantomArgs, [@script]))
     stdout = []
     stderr = []
+    options = @options
 
     timeout = setTimeout ->
       child.stdin.end()
@@ -92,7 +93,7 @@ module.exports = class PDF
     child.on 'exit', (code) ->
       # Wait X milliseconds after the 'exit' event being fired
       # as 'data' event might still be processing
-      phantomExitTimeout = (@options.phantomExitTimeout || 60)
+      phantomExitTimeout = (options.phantomExitTimeout || 60)
       setTimeout ->
         clearTimeout(timeout)
         if code || stderr.length
