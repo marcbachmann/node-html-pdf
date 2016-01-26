@@ -54,15 +54,40 @@ setTimeout ->
 # ------------------------------
 getContent = ->
   page.evaluate ->
+    getElements = (doc, wildcard) ->
+      wildcardMatcher = new RegExp("#{wildcard}(.*)")
+      hasElements = false
+      elements = {}
+      $elements = document.querySelectorAll("[id*='#{wildcard}']")
+      for $elem in $elements
+        if match = $elem.attributes.id.value.match(wildcardMatcher)
+          hasElements = true
+          i = match[1]
+          elements[i] = $elem.outerHTML
+
+          $elem.parentNode.removeChild($elem)
+
+      if hasElements
+        return elements
+
+    getElement = (doc, id) ->
+      if $elem = doc.getElementById(id)
+        html = $elem.outerHTML
+        $elem.parentNode.removeChild($elem)
+        return html
+
     styles = document.querySelectorAll('link,style')
     styles = Array::reduce.call(styles, ((string, node) -> string+node.outerHTML),'')
-    if $header = document.getElementById('pageHeader')
-      header = $header.outerHTML
-      $header.parentNode.removeChild($header)
 
-    if $footer = document.getElementById('pageFooter')
-      footer = $footer.outerHTML
-      $footer.parentNode.removeChild($footer)
+    # Wildcard headers e.g. <div id="pageHeader-first"> or <div id="pageHeader-0">
+    header = getElements(document, 'pageHeader-')
+    footer = getElements(document, 'pageFooter-')
+
+    # Default header and footer e.g. <div id="pageHeader">
+    h = getElement(document, 'pageHeader')
+    f = getElement(document, 'pageFooter')
+    (header ?= {}).default = h if h
+    (footer ?= {}).default = f if f
 
     if $body = document.getElementById('pageContent')
       body = $body.outerHTML
@@ -89,12 +114,18 @@ createPaper = (options) ->
 
 # Creates page section
 # --------------------
-createSection = (content, styles, options) ->
-  height: options?.height
+createSection = (section, content, options) ->
+  c = content[section] || {}
+  o = options[section] || {}
+
+  height: o.height
   contents: phantom.callback (pageNum, numPages) ->
-    (options?.contents || content || '')
+    html = c[pageNum]
+    html ?= c['first'] if pageNum == 1
+    html ?= c['last'] if pageNum == numPages
+    (html || c.default || o.contents || '')
       .replace('{{page}}', pageNum)
-      .replace('{{pages}}', numPages)+styles
+      .replace('{{pages}}', numPages) + content.styles
 
 
 # Creates paper with generated footer & header
@@ -104,8 +135,7 @@ generatePaper = (content, options) ->
 
   for section in ['header', 'footer']
     if options[section] || content[section]
-      paper[section] =
-        createSection(content[section], content.styles, options[section])
+      paper[section] = createSection(section, content, options)
 
   paper.header?.height ?= '46mm'
   paper.footer?.height ?= '28mm'
