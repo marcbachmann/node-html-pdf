@@ -117,6 +117,17 @@ test 'allows custom page and footer options', (st) ->
     st.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
 
 
+test 'allows different header and footer for first page', (st) ->
+  st.plan(3)
+
+  enrichedHtml = fs.readFileSync(path.join(__dirname, 'multiple-pages.html'), 'utf8')
+  filename = path.join(__dirname, 'multiple-pages.pdf')
+  pdf.create(enrichedHtml, quality: 100).toFile filename, (error, pdf) ->
+    st.error(error)
+    st.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
+    st.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
+
+
 test 'load external css', (st) ->
   st.plan(3)
 
