@@ -1,3 +1,20 @@
+1.5.0
+=====
+You can use tags with ids in your html to get custom headers and footers:
+```html
+<div id="pageHeader">Default header</div>
+<div id="pageHeader-first">Header on first page</div>
+<div id="pageHeader-2">Header on second page</div>
+<div id="pageHeader-3">Header on third page</div>
+<div id="pageHeader-last">Header on last page</div>
+...
+<div id="pageFooter">Default footer</div>
+<div id="pageFooter-first">Footer on first page</div>
+<div id="pageFooter-2">Footer on second page</div>
+<div id="pageFooter-last">Footer on last page</div>
+```
+
+
 1.4.0
 =====
 - Add `httpHeaders` option.
