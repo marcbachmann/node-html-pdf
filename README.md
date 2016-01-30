@@ -55,6 +55,24 @@ pdf.create(html).toBuffer(function(err, buffer){
 pdf.create(html [, options], function(err, buffer){});
 ```
 
+### Footers and Headers
+
+`html-pdf` can read the header or footer of a page out of the html source. You can either set a default header or footer or overwrite that by appending a page number (1 based index) to the `id="pageHeader"` attribute of a html tag.
+
+You can use any combination of those tags. The library tries to find any element, that contains the `pageHeader` or `pageFooter` id prefix.
+```html
+<div id="pageHeader">Default header</div>
+<div id="pageHeader-first">Header on first page</div>
+<div id="pageHeader-2">Header on second page</div>
+<div id="pageHeader-3">Header on third page</div>
+<div id="pageHeader-last">Header on last page</div>
+...
+<div id="pageFooter">Default footer</div>
+<div id="pageFooter-first">Footer on first page</div>
+<div id="pageFooter-2">Footer on second page</div>
+<div id="pageFooter-last">Footer on last page</div>
+```
+
 
 ## Options
 ```javascript
