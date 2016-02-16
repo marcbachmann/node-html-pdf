@@ -23,7 +23,7 @@
     "tape": "^3.4.0"
   },
   "optionalDependencies": {
-    "phantomjs": "^1.9.19"
+    "phantomjs-prebuilt": "^2.1.4"
   },
   "repository": {
     "type": "git",
