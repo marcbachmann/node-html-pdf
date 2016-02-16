@@ -107,6 +107,10 @@ config = {
     "contents": '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>'
   },
 
+
+  // Rendering options
+  "base": "file:///home/www/your-asset-path", // Base path that's used to load files (images, css, js) when they aren't referenced using a host
+
   // File options
   "type": "pdf",             // allowed file types: png, jpeg, pdf
   "quality": "75",           // only used for types png & jpeg
