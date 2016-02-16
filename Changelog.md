@@ -1,3 +1,9 @@
+2.0.0
+=====
+- Upgrade to PhantomJS v2 [#107](https://github.com/marcbachmann/node-html-pdf/pull/107)
+- Add `base` option to allow relative asset urls [#99](https://github.com/marcbachmann/node-html-pdf/pull/99)
+
+
 1.5.0
 =====
 You can use tags with ids in your html to get custom headers and footers:
