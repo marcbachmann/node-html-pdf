@@ -10,10 +10,8 @@
     "html-pdf": "bin/index.js"
   },
   "scripts": {
-    "build": "coffee --compile --output lib/ src/",
     "standard": "standard bin/index.js",
-    "exectest": "coffee test/index.coffee -n",
-    "test": "npm run standard && npm run build  && npm run exectest"
+    "test": "npm run standard && node test/index.js"
   },
   "author": "Marc Bachmann",
   "license": "MIT",
