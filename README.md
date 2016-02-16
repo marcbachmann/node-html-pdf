@@ -4,7 +4,7 @@
 [Example Business Card](example/businesscard.pdf)  
  -> [and its Source file](example/businesscard.html)  
 
-[Example Receipt](http://public.admintools.ch/gh/html-pdf/order.pdf)
+[Example Receipt](http://imgr-static.s3-eu-west-1.amazonaws.com/order.pdf)
 
 ## Installation
 
