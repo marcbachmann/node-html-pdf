@@ -6,6 +6,10 @@
 
 [Example Receipt](http://imgr-static.s3-eu-west-1.amazonaws.com/order.pdf)
 
+## Changelog
+
+Have a look at the releases page: https://github.com/marcbachmann/node-html-pdf/releases
+
 ## Installation
 
 Install the html-pdf utility via [npm](http://npmjs.org/):
