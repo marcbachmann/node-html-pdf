@@ -53,13 +53,22 @@ test('pdf.create(html[, options]).toFile([filename, ]callback)', function (t) {
   })
 })
 
-test('pdf.create(html[, options]).toBuffer(callback)', function (t) {
+test('pdf.create(html).toBuffer(callback)', function (t) {
   t.plan(3)
 
   pdf.create(html).toBuffer(function (err, pdf) {
     t.error(err)
     t.assert(Buffer.isBuffer(pdf), "toBuffer(callback) returns a buffer instance as second cb argument")
     t.assert(/^\%PDF-1.4/.test(pdf.slice(0, 100).toString()), "the PDF buffer has a PDF Header")
+  })
+})
+
+test('pdf.create(html, {directory: "/tmp"}).toBuffer(callback)', function (t) {
+  t.plan(2)
+
+  pdf.create(html, {directory: '/tmp'}).toBuffer(function (err, pdf) {
+    t.error(err)
+    t.assert(Buffer.isBuffer(pdf), "uses the passed directory as tmp dir")
   })
 })
 
