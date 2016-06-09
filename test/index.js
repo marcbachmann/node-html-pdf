@@ -114,6 +114,24 @@ test('allows custom html and css', function (t) {
   })
 })
 
+test('allows invalid phantomPath', function (t) {
+  t.plan(3)
+
+  var filename = path.join(__dirname, 'invalid-phantomPath.pdf')
+
+  var options = {
+    phantomPath: '/bad/path/to/phantom'
+  }
+
+  pdf
+  .create(html, options)
+  .toFile(filename, function (error, pdf) {
+    t.assert(error instanceof Error, 'Returns an error')
+    t.equal(error.code, 'ENOENT', 'Error code is ENOENT')
+    t.error(pdf, 'PDF does not exist')
+  })
+})
+
 test('allows custom page and footer options', function (t) {
   t.plan(3)
 
