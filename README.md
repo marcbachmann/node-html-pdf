@@ -108,7 +108,14 @@ config = {
   },
   "footer": {
     "height": "28mm",
-    "contents": '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>'
+    "contents": '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>',
+    "folio": {
+      "start": 0,
+      "substitute": [
+        "Cover",
+        "Table of Contents"
+      ]
+    }
   },
 
 
