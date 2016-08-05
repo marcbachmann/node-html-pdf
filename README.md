@@ -114,6 +114,9 @@ config = {
 
   // Rendering options
   "base": "file:///home/www/your-asset-path", // Base path that's used to load files (images, css, js) when they aren't referenced using a host
+  
+  // Zooming options
+  "zoomFactor": "1", // default is 1
 
   // File options
   "type": "pdf",             // allowed file types: png, jpeg, pdf
