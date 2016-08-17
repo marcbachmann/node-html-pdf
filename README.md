@@ -61,7 +61,7 @@ pdf.create(html [, options], function(err, buffer){});
 
 ### Footers and Headers
 
-`html-pdf` can read the header or footer of a page out of the html source. You can either set a default header or footer or overwrite that by appending a page number (1 based index) to the `id="pageHeader"` attribute of a html tag.
+`html-pdf` can read the header or footer either out of the `footer` and `header` config object or out of the html source. You can either set a default header & footer or overwrite that by appending a page number (1 based index) to the `id="pageHeader"` attribute of a html tag.
 
 You can use any combination of those tags. The library tries to find any element, that contains the `pageHeader` or `pageFooter` id prefix.
 ```html
@@ -108,14 +108,19 @@ config = {
   },
   "footer": {
     "height": "28mm",
-    "contents": '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>'
+    "contents": {
+      first: 'Cover page',
+      2: 'Second page' // Any page number is working. 1-based index
+      default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+      last: 'Last Page'
+    }
   },
 
 
   // Rendering options
   "base": "file:///home/www/your-asset-path", // Base path that's used to load files (images, css, js) when they aren't referenced using a host
-  
-  // Zooming options
+
+  // Zooming option, can be used to scale images if `options.type` is not pdf
   "zoomFactor": "1", // default is 1
 
   // File options
