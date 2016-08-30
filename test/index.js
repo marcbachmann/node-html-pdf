@@ -13,32 +13,6 @@ var html = fs.readFileSync(path.join(__dirname, 'example.html'), 'utf8')
 // API
 //
 
-test('pdf.create(html[, options]).toFile([filename, {useDoneCallback: true}], callback), where html does not call window#callPhantom', function (t) {
-  t.plan(1)
-
-  var enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-js.html'), 'utf8')
-  var filename = path.join(__dirname, 'external-js-callback-fail.pdf')
-  pdf
-  .create(enrichedHtml, {timeout: 2000, useDoneCallback: true, phantomArgs: ['--ignore-ssl-errors=true']})
-  .toFile(filename, function (error, pdf) {
-    t.assert(error instanceof Error, 'pdf.create(html, {useDoneCallback: true}) where callback not called')
-  })
-})
-
-test('pdf.create(html[, options]).toFile([filename, {useDoneCallback: true}], callback), where html calls window#callPhantom', function (t) {
-  t.plan(3)
-
-  var enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-js-callback.html'), 'utf8')
-  var filename = path.join(__dirname, 'external-js-callback.pdf')
-  pdf
-  .create(enrichedHtml, {useDoneCallback: true, phantomArgs: ['--ignore-ssl-errors=true']})
-  .toFile(filename, function (error, pdf) {
-    t.error(error)
-    t.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
-    t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
-  })
-})
-
 test('pdf.create(html[, options]) throws an error when executing without html', function (t) {
   t.plan(3)
 
@@ -215,6 +189,32 @@ test('load external js', function (t) {
   var filename = path.join(__dirname, 'external-js.pdf')
   pdf
   .create(enrichedHtml, {phantomArgs: ['--ignore-ssl-errors=true']})
+  .toFile(filename, function (error, pdf) {
+    t.error(error)
+    t.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
+    t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
+  })
+})
+
+test('pdf.create(html[, options]).toFile([filename, {useDoneCallback: true}], callback), where html does not call window#callPhantom', function (t) {
+  t.plan(1)
+
+  var enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-js.html'), 'utf8')
+  var filename = path.join(__dirname, 'external-js-callback-fail.pdf')
+  pdf
+  .create(enrichedHtml, {timeout: 2000, useDoneCallback: true, phantomArgs: ['--ignore-ssl-errors=true']})
+  .toFile(filename, function (error, pdf) {
+    t.assert(error instanceof Error, 'pdf.create(html, {useDoneCallback: true}) where callback not called')
+  })
+})
+
+test('pdf.create(html[, options]).toFile([filename, {useDoneCallback: true}], callback), where html calls window#callPhantom', function (t) {
+  t.plan(3)
+
+  var enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-js-callback.html'), 'utf8')
+  var filename = path.join(__dirname, 'external-js-callback.pdf')
+  pdf
+  .create(enrichedHtml, {useDoneCallback: true, phantomArgs: ['--ignore-ssl-errors=true']})
   .toFile(filename, function (error, pdf) {
     t.error(error)
     t.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
