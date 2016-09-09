@@ -144,3 +144,8 @@ config = {
 
 The full options object gets converted to JSON and will get passed to the phantomjs script as third argument.  
 There are more options concerning the paperSize, header & footer options inside the phantomjs script.
+
+### Command-line arguments example
+```
+$ html-pdf test/businesscard.html businesscard.pdf --format=Letter --border.top=5mm --phantomArgs ignore-ssl-errors=yes
+```
