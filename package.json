@@ -25,7 +25,8 @@
     "tape": "^3.4.0"
   },
   "optionalDependencies": {
-    "phantomjs-prebuilt": "^2.1.4"
+    "phantomjs-prebuilt": "^2.1.4",
+    "yargs-parser": "^3.2.0"
   },
   "repository": {
     "type": "git",
