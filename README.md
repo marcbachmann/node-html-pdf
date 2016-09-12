@@ -45,11 +45,11 @@ pdf.create(html).toFile([filepath, ]function(err, res){
   console.log(res.filename);
 });
 
-pdf.create(html).toStream(function(err, stream){
+pdf.create(html).toStream(function(err, stream, res){
   stream.pipe(fs.createWriteStream('./foo.pdf'));
 });
 
-pdf.create(html).toBuffer(function(err, buffer){
+pdf.create(html).toBuffer(function(err, buffer, res){
   console.log('This is a buffer:', Buffer.isBuffer(buffer));
 });
 
