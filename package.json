@@ -13,8 +13,7 @@
     "html-pdf": "bin/index.js"
   },
   "scripts": {
-    "standard": "standard bin/index.js",
-    "test": "npm run standard && node test/index.js"
+    "test": "standard && node test/index.js"
   },
   "author": "Marc Bachmann",
   "license": "MIT",
