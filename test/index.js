@@ -41,7 +41,7 @@ test('pdf.create(html[, options]).toFile([filename, ]callback)', function (t) {
 
   pdf.create(html).toFile(function (err, pdf) {
     t.error(err)
-    t.assert(typeof pdf.filename == 'string', `toFile(callback) returns {filename: '${pdf.filename}'} as second cb argument`)
+    t.assert(typeof pdf.filename === 'string', `toFile(callback) returns {filename: '${pdf.filename}'} as second cb argument`)
     fs.unlink(pdf.filename)
   })
 
@@ -58,8 +58,8 @@ test('pdf.create(html).toBuffer(callback)', function (t) {
 
   pdf.create(html).toBuffer(function (err, pdf) {
     t.error(err)
-    t.assert(Buffer.isBuffer(pdf), "toBuffer(callback) returns a buffer instance as second cb argument")
-    t.assert(/^\%PDF-1.4/.test(pdf.slice(0, 100).toString()), "the PDF buffer has a PDF Header")
+    t.assert(Buffer.isBuffer(pdf), 'toBuffer(callback) returns a buffer instance as second cb argument')
+    t.assert(/^\%PDF-1.4/.test(pdf.slice(0, 100).toString()), 'the PDF buffer has a PDF Header')
   })
 })
 
@@ -68,17 +68,17 @@ test('pdf.create(html, {directory: "/tmp"}).toBuffer(callback)', function (t) {
 
   pdf.create(html, {directory: '/tmp'}).toBuffer(function (err, pdf) {
     t.error(err)
-    t.assert(Buffer.isBuffer(pdf), "uses the passed directory as tmp dir")
+    t.assert(Buffer.isBuffer(pdf), 'uses the passed directory as tmp dir')
   })
 })
 
 test('pdf.create(html[, options]).toStream(callback)', function (t) {
   t.plan(3)
 
-  stream = pdf.create(html).toStream(function (err, stream) {
+  pdf.create(html).toStream(function (err, stream) {
     t.error(err)
-    t.assert(stream instanceof fs.ReadStream, "toStream(callback) returns a fs.ReadStream as second cb argument")
-    destination = path.join(__dirname, 'streamed.pdf')
+    t.assert(stream instanceof fs.ReadStream, 'toStream(callback) returns a fs.ReadStream as second cb argument')
+    var destination = path.join(__dirname, 'streamed.pdf')
     stream.pipe(fs.createWriteStream(destination))
     stream.on('end', function () {
       t.assert(fs.existsSync(destination), 'toStream returns a working readable stream')
@@ -95,7 +95,7 @@ test('allows custom html and css', function (t) {
 
   var template = path.join(__dirname, '../example/businesscard.html')
   var filename = template.replace('.html', '.pdf')
-  var templateHtml =  fs.readFileSync(template, 'utf8')
+  var templateHtml = fs.readFileSync(template, 'utf8')
 
   var image = path.join('file://', __dirname, '../example/image.png')
   templateHtml = templateHtml.replace('{{image}}', image)
@@ -148,7 +148,7 @@ test('allows custom page and footer options', function (t) {
   .create(html, options)
   .toFile(filename, function (error, pdf) {
     t.error(error)
-    t.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
+    t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
     t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
   })
 })
@@ -162,7 +162,7 @@ test('allows different header and footer for first page', function (t) {
   .create(enrichedHtml, {quality: 100})
   .toFile(filename, function (error, pdf) {
     t.error(error)
-    t.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
+    t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
     t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
   })
 })
@@ -176,7 +176,7 @@ test('load external css', function (t) {
   .create(enrichedHtml)
   .toFile(filename, function (error, pdf) {
     t.error(error)
-    t.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
+    t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
     t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
   })
 })
@@ -190,7 +190,7 @@ test('load external js', function (t) {
   .create(enrichedHtml, {phantomArgs: ['--ignore-ssl-errors=true']})
   .toFile(filename, function (error, pdf) {
     t.error(error)
-    t.assert(pdf.filename == filename, 'Returns the filename from the phantom script')
+    t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
     t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
   })
 })
