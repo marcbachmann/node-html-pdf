@@ -149,6 +149,20 @@ config = {
     "detached": true
   }
 
+  // HTTP Cookies that are used for requests
+  "httpCookies": [
+    // e.g.
+    {
+      "name": "Valid-Cookie-Name", // required
+      "value": "Valid-Cookie-Value", // required
+      "domain": "localhost",
+      "path": "/foo", // required
+      "httponly": true,
+      "secure": false,
+      "expires": (new Date()).getTime() + (1000 * 60 * 60) // e.g. expires in 1 hour
+    }
+  ]
+
 }
 ```
 
