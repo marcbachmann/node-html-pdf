@@ -18,7 +18,6 @@
   "author": "Marc Bachmann",
   "license": "MIT",
   "devDependencies": {
-    "coffee-script": "^1.7.1",
     "standard": "^5.1.1",
     "tap-spec": "^2.2.0",
     "tape": "^3.4.0"
