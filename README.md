@@ -102,6 +102,7 @@ config = {
     "left": "1.5in"
   },
 
+  paginationOffset: 1,       // Override the initial pagination number
   "header": {
     "height": "45mm",
     "contents": '<div style="text-align: center;">Author: Marc Bachmann</div>'
@@ -138,7 +139,7 @@ config = {
     // e.g.
     "Authorization": "Bearer ACEFAD8C-4B4D-4042-AB30-6C735F5BAC8B"
   },
-  
+
   // To run Node application as Windows service
   "cliOptions": {
     "detached": true
