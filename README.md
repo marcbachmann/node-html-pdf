@@ -134,6 +134,10 @@ config = {
   "script": '/url',           // Absolute path to a custom phantomjs script, use the file in lib/scripts as example
   "timeout": 30000,           // Timeout that will cancel phantomjs, in milliseconds
 
+  // Time we should wait after window load
+  // accepted values are 'manual', some delay in milliseconds or undefined to wait for a render event
+  "renderDelay": 1000,
+
   // HTTP Headers that are used for requests
   "httpHeaders": {
     // e.g.
