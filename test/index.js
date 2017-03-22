@@ -194,3 +194,36 @@ test('load external js', function (t) {
     t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
   })
 })
+
+test('load with cookies js', function (t) {
+  t.plan(3)
+
+  var server = require('http').createServer(function (req, res) {
+    res.write(req.headers.cookie)
+    res.end()
+  })
+
+  server.listen(0, function (err) {
+    t.error(err, 'http server for iframe started')
+
+    var port = server.address().port
+    var filename = path.join(__dirname, 'cookies.pdf')
+    pdf.create(`
+      <body>here is an iframe which receives the cookies
+        <iframe src="http://localhost:${port}" width="400" height="100"></iframe>
+      </body>
+    `, {
+      httpCookies: [{
+        name: 'Valid-Cookie-Name',
+        value: 'Valid-Cookie-Value',
+        domain: 'localhost',
+        path: '/'
+      }]
+    })
+    .toFile(filename, function (error, pdf) {
+      server.close()
+      t.error(error, 'There must be no render error')
+      t.assert(fs.existsSync(pdf.filename), 'Saves the pdf')
+    })
+  })
+})
