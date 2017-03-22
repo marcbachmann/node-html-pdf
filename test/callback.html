@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+        background: #F0F0F0;
+        color: #333;
+      }
+
+      * {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="pageHeader">Header</div>
+    <div id="pageContent">Content with Unicode Char 😃</div>
+    <div id="pageFooter">Footer</div>
+
+    <script>
+
+        //window.callPhantom('data')
+        var test = window.callPhantom({message: 'test2'});
+        document.getElementById('pageFooter').innerHTML = "'" + test + "'";
+    </script>
+  </body>
+</html>
