@@ -88,8 +88,9 @@ test('window.callPhantom renders page', function (t) {
   var startTime = new Date().getTime()
   pdf.create(callbackHtml, { timeout: 120000, renderDelay: 120000 }).toFile(file, function (err, pdf) {
     var endTime = new Date().getTime()
+    console.info(endTime - startTime)
     t.error(err)
-    t.assert(endTime - startTime < 10000, 'rendered in response to callPhantom and not the delay')
+    t.assert(endTime - startTime < 15000, 'rendered in response to callPhantom and not the delay')
     t.assert(fs.existsSync(file), 'writes the file to the given destination')
   })
 })
