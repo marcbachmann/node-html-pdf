@@ -24,7 +24,7 @@ function help () {
 function htmlpdf (source, destination) {
   var html = fs.readFileSync(source, 'utf8')
   var options = {
-    base: 'file://' + path.resolve(source),
+    base: 'file://' + path.resolve(source)
   }
   pdf.create(html, options).toFile(destination, function (err, res) {
     if (err) throw err

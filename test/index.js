@@ -81,7 +81,6 @@ test('pdf.create(html, {renderDelay: 1000}).toBuffer(callback)', function (t) {
   })
 })
 
-
 test('pdf.create(html[, options]).toStream(callback)', function (t) {
   t.plan(3)
 
