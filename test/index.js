@@ -74,6 +74,16 @@ test('pdf.create(html, {directory: "/tmp"}).toBuffer(callback)', function (t) {
   })
 })
 
+test('pdf.create(html, {renderDelay: 1000}).toBuffer(callback)', function (t) {
+  t.plan(2)
+
+  pdf.create(html, {renderDelay: 1000}).toBuffer(function (err, pdf) {
+    t.error(err)
+    t.assert(Buffer.isBuffer(pdf), 'still returns after renderDelay')
+  })
+})
+
+
 test('pdf.create(html[, options]).toStream(callback)', function (t) {
   t.plan(3)
 
