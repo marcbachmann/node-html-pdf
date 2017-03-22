@@ -45,11 +45,11 @@ pdf.create(html).toFile([filepath, ]function(err, res){
   console.log(res.filename);
 });
 
-pdf.create(html).toStream(function(err, stream){
+pdf.create(html).toStream(function(err, stream, res){
   stream.pipe(fs.createWriteStream('./foo.pdf'));
 });
 
-pdf.create(html).toBuffer(function(err, buffer){
+pdf.create(html).toBuffer(function(err, buffer, res){
   console.log('This is a buffer:', Buffer.isBuffer(buffer));
 });
 
@@ -132,6 +132,7 @@ config = {
   "phantomArgs": [], // array of strings used as phantomjs args e.g. ["--ignore-ssl-errors=yes"]
   "script": '/url',           // Absolute path to a custom phantomjs script, use the file in lib/scripts as example
   "timeout": 30000,           // Timeout that will cancel phantomjs, in milliseconds
+  "evaluateScript": "function () { console.log(document.title) }", // Evaluate a script in the context of the web page (console.log are collected in consoleMessages field in the JSON returned by the callback: res)
 
   // HTTP Headers that are used for requests
   "httpHeaders": {

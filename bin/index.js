@@ -28,5 +28,6 @@ function htmlpdf (source, destination) {
   }
   pdf.create(html, options).toFile(destination, function (err, res) {
     if (err) throw err
+    if (res) console.log(JSON.stringify(res))
   })
 }
