@@ -132,7 +132,7 @@ config = {
   "phantomArgs": [], // array of strings used as phantomjs args e.g. ["--ignore-ssl-errors=yes"]
   "script": '/url',           // Absolute path to a custom phantomjs script, use the file in lib/scripts as example
   "timeout": 30000,           // Timeout that will cancel phantomjs, in milliseconds
-  "renderPause": 3000,        // Pause after onLoadFinished before rendering page, in milliseconds
+  "renderDelay": 3000,        // Pause after onLoadFinished before rendering page, in milliseconds
   // HTTP Headers that are used for requests
   "httpHeaders": {
     // e.g.
