@@ -9,9 +9,8 @@ var path = require('path')
 var pdf = require('../')
 var html = fs.readFileSync(path.join(__dirname, 'example.html'), 'utf8')
 
-//
 // API
-//
+
 test('pdf.create(html[, options]) throws an error when executing without html', function (t) {
   t.plan(3)
 
@@ -69,6 +68,30 @@ test('pdf.create(html, {directory: "/tmp"}).toBuffer(callback)', function (t) {
   pdf.create(html, {directory: '/tmp'}).toBuffer(function (err, pdf) {
     t.error(err)
     t.assert(Buffer.isBuffer(pdf), 'uses the passed directory as tmp dir')
+  })
+})
+
+test('pdf.create(html, {renderDelay: 1000}).toBuffer(callback)', function (t) {
+  t.plan(2)
+
+  pdf.create(html, { renderDelay: 1000 }).toBuffer(function (err, pdf) {
+    t.error(err)
+    t.assert(Buffer.isBuffer(pdf), 'still returns after renderDelay')
+  })
+})
+
+test('window.callPhantom renders page', function (t) {
+  t.plan(3)
+
+  var callbackHtml = fs.readFileSync(path.join(__dirname, 'callback.html'), 'utf8')
+  var file = path.join(__dirname, 'callback.pdf')
+  var startTime = new Date().getTime()
+  pdf.create(callbackHtml, { timeout: 120000, renderDelay: 120000 }).toFile(file, function (err, pdf) {
+    var endTime = new Date().getTime()
+    console.info(endTime - startTime)
+    t.error(err)
+    t.assert(endTime - startTime < 15000, 'rendered in response to callPhantom and not the delay')
+    t.assert(fs.existsSync(file), 'writes the file to the given destination')
   })
 })
 
