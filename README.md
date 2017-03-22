@@ -139,6 +139,20 @@ config = {
     "Authorization": "Bearer ACEFAD8C-4B4D-4042-AB30-6C735F5BAC8B"
   }
 
+  // HTTP Cookies that are used for requests
+  "httpCookies": [
+    // e.g.
+    {
+      "name": "Valid-Cookie-Name", // required
+      "value": "Valid-Cookie-Value", // required
+      "domain": "localhost",
+      "path": "/foo", // required
+      "httponly": true,
+      "secure": false,
+      "expires": (new Date()).getTime() + (1000 * 60 * 60) // e.g. expires in 1 hour
+    }
+  ]
+
 }
 ```
 
