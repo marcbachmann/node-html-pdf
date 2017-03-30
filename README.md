@@ -77,6 +77,20 @@ You can use any combination of those tags. The library tries to find any element
 <div id="pageFooter-last">Footer on last page</div>
 ```
 
+You can also set a function that returns the desired page header/footer in the `[options]`:
+
+```js
+pdf.create(html , {
+  header: {
+    contents: function (pageNum, numPages) {
+      return pageNum % 2 === 0
+        ? '<div>This is an even page header</div>'
+        : '<div>This is an odd page header</div>'
+    }
+  }
+}, function(err, buffer){});
+```
+
 
 ## Options
 ```javascript
@@ -104,7 +118,11 @@ config = {
 
   "header": {
     "height": "45mm",
-    "contents": '<div style="text-align: center;">Author: Marc Bachmann</div>'
+    "contents": '<div style="text-align: center;">Author: Marc Bachmann</div>',
+    - or -
+    "contents": function (pageNum, numPages) {
+      return "<div>the page number is: " + pageNum + "</div>"
+    }
   },
   "footer": {
     "height": "28mm",
