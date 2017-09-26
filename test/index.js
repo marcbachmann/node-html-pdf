@@ -93,11 +93,11 @@ test('pdf.create(html[, options]).toStream(callback)', function (t) {
 test('allows custom html and css', function (t) {
   t.plan(3)
 
-  var template = path.join(__dirname, '../example/businesscard.html')
+  var template = path.join(__dirname, '../examples/businesscard/businesscard.html')
   var filename = template.replace('.html', '.pdf')
   var templateHtml = fs.readFileSync(template, 'utf8')
 
-  var image = path.join('file://', __dirname, '../example/image.png')
+  var image = path.join('file://', __dirname, '../examples/businesscard/image.png')
   templateHtml = templateHtml.replace('{{image}}', image)
 
   var options = {
