@@ -1,5 +1,7 @@
 var test = require('tape')
 var tapSpec = require('tap-spec')
+function noop (err) { if (err) throw err }
+
 test.createStream()
   .pipe(tapSpec())
   .pipe(process.stdout)
@@ -42,7 +44,7 @@ test('pdf.create(html[, options]).toFile([filename, ]callback)', function (t) {
   pdf.create(html).toFile(function (err, pdf) {
     t.error(err)
     t.assert(typeof pdf.filename === 'string', `toFile(callback) returns {filename: '${pdf.filename}'} as second cb argument`)
-    fs.unlink(pdf.filename)
+    fs.unlink(pdf.filename, noop)
   })
 
   var file = path.join(__dirname, 'simple.pdf')
@@ -82,7 +84,7 @@ test('pdf.create(html[, options]).toStream(callback)', function (t) {
     stream.pipe(fs.createWriteStream(destination))
     stream.on('end', function () {
       t.assert(fs.existsSync(destination), 'toStream returns a working readable stream')
-      fs.unlink(destination)
+      fs.unlink(destination, noop)
     })
   })
 })
