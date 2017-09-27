@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body {
+        font-family: "Helvetica Neue", sans-serif;
+        background: #F0F0F0;
+        color: #333;
+      }
+
+      * {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="pageHeader">Header</div>
+    <div id="pageContent"></div>
+    <div id="pageFooter">Footer</div>
+
+    <script>
+      setTimeout(function () {
+        var res = window.callPhantom({success: 'true'})
+        document.getElementById('pageContent').innerHTML = JSON.stringify(res)
+      }, 1000)
+    </script>
+  </body>
+</html>
