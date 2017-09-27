@@ -83,6 +83,22 @@ test('pdf.create(html, {renderDelay: 1000}).toBuffer(callback)', function (t) {
   })
 })
 
+test('window.callPhantom renders page', function (t) {
+  t.plan(3)
+
+  var callbackHtml = fs.readFileSync(path.join(__dirname, 'callback.html'), 'utf8')
+  var file = path.join(__dirname, 'callback.pdf')
+  var startTime = new Date().getTime()
+
+  pdf.create(callbackHtml, {renderDelay: 'manual'}).toFile(file, function (err, pdf) {
+    var endTime = new Date().getTime()
+    t.error(err)
+
+    var time = endTime - startTime
+    t.assert(time > 1000 && time < 2000, 'rendered in response to callPhantom')
+    t.assert(fs.existsSync(file), 'writes the file to the given destination')
+  })
+})
 
 test('pdf.create(html[, options]).toStream(callback)', function (t) {
   t.plan(3)
