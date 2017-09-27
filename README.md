@@ -145,7 +145,7 @@ config = {
   },
 
   // To run Node application as Windows service
-  "cliOptions": {
+  "childProcessOptions": {
     "detached": true
   }
 
