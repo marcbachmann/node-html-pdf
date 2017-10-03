@@ -115,33 +115,6 @@ test('pdf.create(html[, options]).toStream(callback)', function (t) {
   })
 })
 
-//
-// Options
-//
-test('allows custom html and css', function (t) {
-  t.plan(3)
-
-  var template = path.join(__dirname, '../examples/businesscard/businesscard.html')
-  var filename = template.replace('.html', '.pdf')
-  var templateHtml = fs.readFileSync(template, 'utf8')
-
-  var image = path.join('file://', __dirname, '../examples/businesscard/image.png')
-  templateHtml = templateHtml.replace('{{image}}', image)
-
-  var options = {
-    width: '50mm',
-    height: '90mm'
-  }
-
-  pdf
-  .create(templateHtml, options)
-  .toFile(filename, function (err, pdf) {
-    t.error(err)
-    t.assert(pdf.filename, 'Returns the filename')
-    t.assert(fs.existsSync(pdf.filename), 'Saves the file to the desired destination')
-  })
-})
-
 test('allows invalid phantomPath', function (t) {
   t.plan(3)
 
