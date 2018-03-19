@@ -93,9 +93,9 @@ config = {
   "orientation": "portrait", // portrait or landscape
 
   // Page options
-  "border": "0",             // default is 0, units: mm, cm, in, px
+  "margin": "0",             // default is 0, units: mm, cm, in, px
   - or -
-  "border": {
+  "margin": {
     "top": "2in",            // default is 0, units: mm, cm, in, px
     "right": "1in",
     "bottom": "2in",
