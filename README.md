@@ -41,7 +41,7 @@ pdf.create(html, options).toFile('./businesscard.pdf', function(err, res) {
 
 ```js
 var pdf = require('html-pdf');
-pdf.create(html).toFile([filepath, ]function(err, res){
+pdf.create(html).toFile([filepath],function(err, res){
   console.log(res.filename);
 });
 
@@ -55,8 +55,8 @@ pdf.create(html).toBuffer(function(err, buffer){
 
 
 // for backwards compatibility
-// alias to pdf.create(html[, options]).toBuffer(callback)
-pdf.create(html [, options], function(err, buffer){});
+// alias to pdf.create(html,[options]).toBuffer(callback)
+pdf.create(html,[options], function(err, buffer){});
 ```
 
 ### Footers and Headers
