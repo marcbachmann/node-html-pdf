@@ -39,5 +39,9 @@
   "bugs": {
     "url": "https://github.com/marcbachmann/node-html-pdf/issues"
   },
-  "homepage": "https://github.com/marcbachmann/node-html-pdf"
+  "homepage": "https://github.com/marcbachmann/node-html-pdf",
+  "dependencies": {
+    "dompurify": "^2.0.8",
+    "jsdom": "^16.1.0"
+  }
 }
