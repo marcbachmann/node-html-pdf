@@ -84,6 +84,8 @@ config = {
 
   // Export options
   "directory": "/tmp",       // The directory the file gets written into if not using .toFile(filename, callback). default: '/tmp'
+  
+  "readLocalFile": false,     // Option to help specify if access to 'local files' is allowed or not (default *false* to avoid 'arbitrary file read')
 
   // Papersize Options: http://phantomjs.org/api/webpage/property/paper-size.html
   "height": "10.5in",        // allowed units: mm, cm, in, px
