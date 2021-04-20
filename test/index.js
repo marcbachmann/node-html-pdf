@@ -228,3 +228,33 @@ test('load with cookies js', function (t) {
     })
   })
 })
+
+test('allows local file access with localUrlAccess=true', function (t) {
+  t.plan(2)
+
+  pdf.create(`
+    <body>here is an iframe which receives the cookies
+      <iframe src="file://${path.join(__dirname, 'multiple-pages.html')}" width="400" height="100"></iframe>
+    </body>
+  `, {localUrlAccess: true})
+  .toBuffer(function (error, buffer) {
+    t.error(error)
+    const count = buffer.toString().match(/\/Type \/Page\n/g).length
+    t.assert(count === 1, 'Renders a page with 1 page as the content is missing')
+  })
+})
+
+test('does not allow localUrlAccess by default', function (t) {
+  t.plan(2)
+
+  pdf.create(`
+    <body>here is an iframe which receives the cookies
+      <iframe src="file://${path.join(__dirname, 'multiple-pages.html')}" width="400" height="100"></iframe>
+    </body>
+  `)
+  .toBuffer(function (error, buffer) {
+    t.error(error)
+    const count = buffer.toString().match(/\/Type \/Page\n/g).length
+    t.assert(count === 5, 'Renders a page 5 pages as the content is present')
+  })
+})
