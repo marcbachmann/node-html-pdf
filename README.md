@@ -1,8 +1,10 @@
 # node-html-pdf
+
 ## HTML to PDF converter that uses phantomjs
+
 ![image](examples/businesscard/businesscard.png)  
 [Example Business Card](examples/businesscard/businesscard.pdf)  
- -> [and its Source file](examples/businesscard/businesscard.html)  
+ -> [and its Source file](examples/businesscard/businesscard.html)
 
 [Example Receipt](http://imgr-static.s3-eu-west-1.amazonaws.com/order.pdf)
 
@@ -25,6 +27,7 @@ $ html-pdf test/businesscard.html businesscard.pdf
 ```
 
 ## Code example
+
 ```javascript
 var fs = require('fs');
 var pdf = require('html-pdf');
@@ -41,7 +44,7 @@ pdf.create(html, options).toFile('./businesscard.pdf', function(err, res) {
 
 ```js
 var pdf = require('html-pdf');
-pdf.create(html).toFile([filepath, ]function(err, res){
+pdf.create(html).toFile([filepath, ], function(err, res){
   console.log(res.filename);
 });
 
@@ -64,6 +67,7 @@ pdf.create(html [, options], function(err, buffer){});
 `html-pdf` can read the header or footer either out of the `footer` and `header` config object or out of the html source. You can either set a default header & footer or overwrite that by appending a page number (1 based index) to the `id="pageHeader"` attribute of a html tag.
 
 You can use any combination of those tags. The library tries to find any element, that contains the `pageHeader` or `pageFooter` id prefix.
+
 ```html
 <div id="pageHeader">Default header</div>
 <div id="pageHeader-first">Header on first page</div>
@@ -77,15 +81,15 @@ You can use any combination of those tags. The library tries to find any element
 <div id="pageFooter-last">Footer on last page</div>
 ```
 
-
 ## Options
+
 ```javascript
 config = {
 
   // Export options
   "directory": "/tmp",       // The directory the file gets written into if not using .toFile(filename, callback). default: '/tmp'
 
-  // Papersize Options: http://phantomjs.org/api/webpage/property/paper-size.html
+  // Paper size Options: http://phantomjs.org/api/webpage/property/paper-size.html
   "height": "10.5in",        // allowed units: mm, cm, in, px
   "width": "8in",            // allowed units: mm, cm, in, px
   - or -
