@@ -18,6 +18,8 @@ Install the html-pdf utility via [npm](http://npmjs.org/):
 $ npm install -g html-pdf
 ```
 
+NOTE: The [PhantomJS Homepage](https://github.com/Medium/phantomjs) states, that if you check your dependencies into a repository then an `npm rebuild` is needed to rebuild any platform-specific dependencies, which is required for PhantomJS. Otherwise an error is omitted: `Failed to load PhantomJS module. You have to set the path to the PhantomJS binary using 'options.phantomPath'`
+
 ## Command-line example
 
 ```
