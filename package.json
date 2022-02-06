@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "phantomjs-prebuilt": "^2.1.16",
-    "standard": "^5.1.1",
+    "standard": "^17.0.0-2",
     "tap-spec": "^5.0.0",
     "tape": "^5.2.2"
   },

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-var fs = require('fs')
-var pdf = require('../')
-var path = require('path')
+const fs = require('fs')
+const pdf = require('../')
+const path = require('path')
 
-var args = process.argv.slice(2)
+const args = process.argv.slice(2)
 
 if (args.length >= 2) {
   htmlpdf(args[0], args[1])
@@ -13,7 +13,7 @@ if (args.length >= 2) {
 }
 
 function help () {
-  var help = [
+  const help = [
     'Usage: html-pdf <source> <destination>',
     'e.g.: html-pdf source.html destination.pdf'
   ].join('\n')
@@ -22,8 +22,8 @@ function help () {
 }
 
 function htmlpdf (source, destination) {
-  var html = fs.readFileSync(source, 'utf8')
-  var options = {
+  const html = fs.readFileSync(source, 'utf8')
+  const options = {
     base: 'file://' + path.resolve(source)
   }
   pdf.create(html, options).toFile(destination, function (err, res) {

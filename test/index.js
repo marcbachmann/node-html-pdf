@@ -1,15 +1,15 @@
-var test = require('tape')
-var tapSpec = require('tap-spec')
+const test = require('tape')
+const tapSpec = require('tap-spec')
 function noop (err) { if (err) throw err }
 
 test.createStream()
   .pipe(tapSpec())
   .pipe(process.stdout)
 
-var fs = require('fs')
-var path = require('path')
-var pdf = require('../')
-var html = fs.readFileSync(path.join(__dirname, 'example.html'), 'utf8')
+const fs = require('fs')
+const path = require('path')
+const pdf = require('../')
+const html = fs.readFileSync(path.join(__dirname, 'example.html'), 'utf8')
 
 //
 // API
@@ -47,7 +47,7 @@ test('pdf.create(html[, options]).toFile([filename, ]callback)', function (t) {
     fs.unlink(pdf.filename, noop)
   })
 
-  var file = path.join(__dirname, 'simple.pdf')
+  const file = path.join(__dirname, 'simple.pdf')
   pdf.create(html).toFile(file, function (err, pdf) {
     t.error(err)
     t.assert(pdf.filename === file, `toFile(filename, callback) returns {filename: '${pdf.filename}'} as second cb argument`)
@@ -61,14 +61,14 @@ test('pdf.create(html).toBuffer(callback)', function (t) {
   pdf.create(html).toBuffer(function (err, pdf) {
     t.error(err)
     t.assert(Buffer.isBuffer(pdf), 'toBuffer(callback) returns a buffer instance as second cb argument')
-    t.assert(/^\%PDF-1.4/.test(pdf.slice(0, 100).toString()), 'the PDF buffer has a PDF Header')
+    t.assert(/^\\%PDF-1.4/.test(pdf.slice(0, 100).toString()), 'the PDF buffer has a PDF Header')
   })
 })
 
 test('pdf.create(html, {directory: "/tmp"}).toBuffer(callback)', function (t) {
   t.plan(2)
 
-  pdf.create(html, {directory: '/tmp'}).toBuffer(function (err, pdf) {
+  pdf.create(html, { directory: '/tmp' }).toBuffer(function (err, pdf) {
     t.error(err)
     t.assert(Buffer.isBuffer(pdf), 'uses the passed directory as tmp dir')
   })
@@ -77,7 +77,7 @@ test('pdf.create(html, {directory: "/tmp"}).toBuffer(callback)', function (t) {
 test('pdf.create(html, {renderDelay: 1000}).toBuffer(callback)', function (t) {
   t.plan(2)
 
-  pdf.create(html, {renderDelay: 1000}).toBuffer(function (err, pdf) {
+  pdf.create(html, { renderDelay: 1000 }).toBuffer(function (err, pdf) {
     t.error(err)
     t.assert(Buffer.isBuffer(pdf), 'still returns after renderDelay')
   })
@@ -86,15 +86,15 @@ test('pdf.create(html, {renderDelay: 1000}).toBuffer(callback)', function (t) {
 test('window.callPhantom renders page', function (t) {
   t.plan(3)
 
-  var callbackHtml = fs.readFileSync(path.join(__dirname, 'callback.html'), 'utf8')
-  var file = path.join(__dirname, 'callback.pdf')
-  var startTime = new Date().getTime()
+  const callbackHtml = fs.readFileSync(path.join(__dirname, 'callback.html'), 'utf8')
+  const file = path.join(__dirname, 'callback.pdf')
+  const startTime = new Date().getTime()
 
-  pdf.create(callbackHtml, {renderDelay: 'manual'}).toFile(file, function (err, pdf) {
-    var endTime = new Date().getTime()
+  pdf.create(callbackHtml, { renderDelay: 'manual' }).toFile(file, function (err, pdf) {
+    const endTime = new Date().getTime()
     t.error(err)
 
-    var time = endTime - startTime
+    const time = endTime - startTime
     t.assert(time > 1000 && time < 2000, 'rendered in response to callPhantom')
     t.assert(fs.existsSync(file), 'writes the file to the given destination')
   })
@@ -106,7 +106,7 @@ test('pdf.create(html[, options]).toStream(callback)', function (t) {
   pdf.create(html).toStream(function (err, stream) {
     t.error(err)
     t.assert(stream instanceof fs.ReadStream, 'toStream(callback) returns a fs.ReadStream as second cb argument')
-    var destination = path.join(__dirname, 'streamed.pdf')
+    const destination = path.join(__dirname, 'streamed.pdf')
     stream.pipe(fs.createWriteStream(destination))
     stream.on('end', function () {
       t.assert(fs.existsSync(destination), 'toStream returns a working readable stream')
@@ -118,26 +118,26 @@ test('pdf.create(html[, options]).toStream(callback)', function (t) {
 test('allows invalid phantomPath', function (t) {
   t.plan(3)
 
-  var filename = path.join(__dirname, 'invalid-phantomPath.pdf')
+  const filename = path.join(__dirname, 'invalid-phantomPath.pdf')
 
-  var options = {
+  const options = {
     phantomPath: '/bad/path/to/phantom'
   }
 
   pdf
-  .create(html, options)
-  .toFile(filename, function (error, pdf) {
-    t.assert(error instanceof Error, 'Returns an error')
-    t.equal(error.code, 'ENOENT', 'Error code is ENOENT')
-    t.error(pdf, 'PDF does not exist')
-  })
+    .create(html, options)
+    .toFile(filename, function (error, pdf) {
+      t.assert(error instanceof Error, 'Returns an error')
+      t.equal(error.code, 'ENOENT', 'Error code is ENOENT')
+      t.error(pdf, 'PDF does not exist')
+    })
 })
 
 test('allows custom page and footer options', function (t) {
   t.plan(3)
 
-  var filename = path.join(__dirname, 'custom.pdf')
-  var options = {
+  const filename = path.join(__dirname, 'custom.pdf')
+  const options = {
     width: '3in',
     height: '7in',
     footer: {
@@ -146,60 +146,60 @@ test('allows custom page and footer options', function (t) {
   }
 
   pdf
-  .create(html, options)
-  .toFile(filename, function (error, pdf) {
-    t.error(error)
-    t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
-    t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
-  })
+    .create(html, options)
+    .toFile(filename, function (error, pdf) {
+      t.error(error)
+      t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
+      t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
+    })
 })
 
 test('allows different header and footer for first page', function (t) {
   t.plan(3)
 
-  var enrichedHtml = fs.readFileSync(path.join(__dirname, 'multiple-pages.html'), 'utf8')
-  var filename = path.join(__dirname, 'multiple-pages.pdf')
+  const enrichedHtml = fs.readFileSync(path.join(__dirname, 'multiple-pages.html'), 'utf8')
+  const filename = path.join(__dirname, 'multiple-pages.pdf')
   pdf
-  .create(enrichedHtml, {quality: 100})
-  .toFile(filename, function (error, pdf) {
-    t.error(error)
-    t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
-    t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
-  })
+    .create(enrichedHtml, { quality: 100 })
+    .toFile(filename, function (error, pdf) {
+      t.error(error)
+      t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
+      t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
+    })
 })
 
 test('load external css', function (t) {
   t.plan(3)
 
-  var enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-css.html'), 'utf8')
-  var filename = path.join(__dirname, 'external-css.pdf')
+  const enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-css.html'), 'utf8')
+  const filename = path.join(__dirname, 'external-css.pdf')
   pdf
-  .create(enrichedHtml)
-  .toFile(filename, function (error, pdf) {
-    t.error(error)
-    t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
-    t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
-  })
+    .create(enrichedHtml)
+    .toFile(filename, function (error, pdf) {
+      t.error(error)
+      t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
+      t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
+    })
 })
 
 test('load external js', function (t) {
   t.plan(3)
 
-  var enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-js.html'), 'utf8')
-  var filename = path.join(__dirname, 'external-js.pdf')
+  const enrichedHtml = fs.readFileSync(path.join(__dirname, 'external-js.html'), 'utf8')
+  const filename = path.join(__dirname, 'external-js.pdf')
   pdf
-  .create(enrichedHtml, {phantomArgs: ['--ignore-ssl-errors=true']})
-  .toFile(filename, function (error, pdf) {
-    t.error(error)
-    t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
-    t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
-  })
+    .create(enrichedHtml, { phantomArgs: ['--ignore-ssl-errors=true'] })
+    .toFile(filename, function (error, pdf) {
+      t.error(error)
+      t.assert(pdf.filename === filename, 'Returns the filename from the phantom script')
+      t.assert(fs.existsSync(pdf.filename), 'Saves the pdf with a custom page size and footer')
+    })
 })
 
 test('load with cookies js', function (t) {
   t.plan(3)
 
-  var server = require('http').createServer(function (req, res) {
+  const server = require('http').createServer(function (req, res) {
     res.write(req.headers.cookie)
     res.end()
   })
@@ -207,8 +207,8 @@ test('load with cookies js', function (t) {
   server.listen(0, function (err) {
     t.error(err, 'http server for iframe started')
 
-    var port = server.address().port
-    var filename = path.join(__dirname, 'cookies.pdf')
+    const port = server.address().port
+    const filename = path.join(__dirname, 'cookies.pdf')
     pdf.create(`
       <body>here is an iframe which receives the cookies
         <iframe src="http://localhost:${port}" width="400" height="100"></iframe>
@@ -221,11 +221,11 @@ test('load with cookies js', function (t) {
         path: '/'
       }]
     })
-    .toFile(filename, function (error, pdf) {
-      server.close()
-      t.error(error, 'There must be no render error')
-      t.assert(fs.existsSync(pdf.filename), 'Saves the pdf')
-    })
+      .toFile(filename, function (error, pdf) {
+        server.close()
+        t.error(error, 'There must be no render error')
+        t.assert(fs.existsSync(pdf.filename), 'Saves the pdf')
+      })
   })
 })
 
@@ -237,11 +237,11 @@ test('does not allow localUrlAccess by default', function (t) {
       <iframe src="file://${path.join(__dirname, 'multiple-pages.html')}" width="400" height="100"></iframe>
     </body>
   `)
-  .toBuffer(function (error, buffer) {
-    t.error(error)
-    const count = buffer.toString().match(/\/Type \/Page\n/g).length
-    t.assert(count === 1, 'Renders a page with 1 page as the content is missing')
-  })
+    .toBuffer(function (error, buffer) {
+      t.error(error)
+      const count = buffer.toString().match(/\/Type \/Page\n/g).length
+      t.assert(count === 1, 'Renders a page with 1 page as the content is missing')
+    })
 })
 
 test('allows local file access with localUrlAccess=true', function (t) {
@@ -251,10 +251,10 @@ test('allows local file access with localUrlAccess=true', function (t) {
     <body>here is an iframe which receives the cookies
       <iframe src="file://${path.join(__dirname, 'multiple-pages.html')}" width="400" height="100"></iframe>
     </body>
-  `, {localUrlAccess: true})
-  .toBuffer(function (error, buffer) {
-    t.error(error)
-    const count = buffer.toString().match(/\/Type \/Page\n/g).length
-    t.assert(count === 5, 'Renders a page 5 pages as the content is present')
-  })
+  `, { localUrlAccess: true })
+    .toBuffer(function (error, buffer) {
+      t.error(error)
+      const count = buffer.toString().match(/\/Type \/Page\n/g).length
+      t.assert(count === 5, 'Renders a page 5 pages as the content is present')
+    })
 })
