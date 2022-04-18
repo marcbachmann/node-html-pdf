@@ -1,0 +1,10 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@2.0.2
+
+workflows:
+  matrix-tests:
+    jobs:
+      - node/test:
+          version: 15.3.0

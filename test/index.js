@@ -1,5 +1,7 @@
 var test = require('tape')
 var tapSpec = require('tap-spec')
+function noop (err) { if (err) throw err }
+
 test.createStream()
   .pipe(tapSpec())
   .pipe(process.stdout)
@@ -42,7 +44,7 @@ test('pdf.create(html[, options]).toFile([filename, ]callback)', function (t) {
   pdf.create(html).toFile(function (err, pdf) {
     t.error(err)
     t.assert(typeof pdf.filename === 'string', `toFile(callback) returns {filename: '${pdf.filename}'} as second cb argument`)
-    fs.unlink(pdf.filename)
+    fs.unlink(pdf.filename, noop)
   })
 
   var file = path.join(__dirname, 'simple.pdf')
@@ -72,6 +74,32 @@ test('pdf.create(html, {directory: "/tmp"}).toBuffer(callback)', function (t) {
   })
 })
 
+test('pdf.create(html, {renderDelay: 1000}).toBuffer(callback)', function (t) {
+  t.plan(2)
+
+  pdf.create(html, {renderDelay: 1000}).toBuffer(function (err, pdf) {
+    t.error(err)
+    t.assert(Buffer.isBuffer(pdf), 'still returns after renderDelay')
+  })
+})
+
+test('window.callPhantom renders page', function (t) {
+  t.plan(3)
+
+  var callbackHtml = fs.readFileSync(path.join(__dirname, 'callback.html'), 'utf8')
+  var file = path.join(__dirname, 'callback.pdf')
+  var startTime = new Date().getTime()
+
+  pdf.create(callbackHtml, {renderDelay: 'manual'}).toFile(file, function (err, pdf) {
+    var endTime = new Date().getTime()
+    t.error(err)
+
+    var time = endTime - startTime
+    t.assert(time > 1000 && time < 2000, 'rendered in response to callPhantom')
+    t.assert(fs.existsSync(file), 'writes the file to the given destination')
+  })
+})
+
 test('pdf.create(html[, options]).toStream(callback)', function (t) {
   t.plan(3)
 
@@ -82,35 +110,8 @@ test('pdf.create(html[, options]).toStream(callback)', function (t) {
     stream.pipe(fs.createWriteStream(destination))
     stream.on('end', function () {
       t.assert(fs.existsSync(destination), 'toStream returns a working readable stream')
-      fs.unlink(destination)
+      fs.unlink(destination, noop)
     })
-  })
-})
-
-//
-// Options
-//
-test('allows custom html and css', function (t) {
-  t.plan(3)
-
-  var template = path.join(__dirname, '../example/businesscard.html')
-  var filename = template.replace('.html', '.pdf')
-  var templateHtml = fs.readFileSync(template, 'utf8')
-
-  var image = path.join('file://', __dirname, '../example/image.png')
-  templateHtml = templateHtml.replace('{{image}}', image)
-
-  var options = {
-    width: '50mm',
-    height: '90mm'
-  }
-
-  pdf
-  .create(templateHtml, options)
-  .toFile(filename, function (err, pdf) {
-    t.error(err)
-    t.assert(pdf.filename, 'Returns the filename')
-    t.assert(fs.existsSync(pdf.filename), 'Saves the file to the desired destination')
   })
 })
 
@@ -225,5 +226,35 @@ test('load with cookies js', function (t) {
       t.error(error, 'There must be no render error')
       t.assert(fs.existsSync(pdf.filename), 'Saves the pdf')
     })
+  })
+})
+
+test('does not allow localUrlAccess by default', function (t) {
+  t.plan(2)
+
+  pdf.create(`
+    <body>here is an iframe which receives the cookies
+      <iframe src="file://${path.join(__dirname, 'multiple-pages.html')}" width="400" height="100"></iframe>
+    </body>
+  `)
+  .toBuffer(function (error, buffer) {
+    t.error(error)
+    const count = buffer.toString().match(/\/Type \/Page\n/g).length
+    t.assert(count === 1, 'Renders a page with 1 page as the content is missing')
+  })
+})
+
+test('allows local file access with localUrlAccess=true', function (t) {
+  t.plan(2)
+
+  pdf.create(`
+    <body>here is an iframe which receives the cookies
+      <iframe src="file://${path.join(__dirname, 'multiple-pages.html')}" width="400" height="100"></iframe>
+    </body>
+  `, {localUrlAccess: true})
+  .toBuffer(function (error, buffer) {
+    t.error(error)
+    const count = buffer.toString().match(/\/Type \/Page\n/g).length
+    t.assert(count === 5, 'Renders a page 5 pages as the content is present')
   })
 })
